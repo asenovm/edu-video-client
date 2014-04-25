@@ -24,6 +24,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.ngm.explaintome.BrowseActivity"
+            android:label="@string/title_activity_browse" >
+        </activity>
+        <activity
+            android:name="com.ngm.explaintome.ExplainActivity"
+            android:label="@string/title_activity_explain" >
+        </activity>
     </application>
 
 </manifest>

@@ -34,16 +34,23 @@ public final class R {
         public static final int first_activity_explain_button=0x7f090001;
     }
     public static final class layout {
-        public static final int activity_first=0x7f030000;
+        public static final int activity_browse=0x7f030000;
+        public static final int activity_explain=0x7f030001;
+        public static final int activity_first=0x7f030002;
     }
     public static final class menu {
-        public static final int first=0x7f080000;
+        public static final int browse=0x7f080000;
+        public static final int explain=0x7f080001;
+        public static final int first=0x7f080002;
     }
     public static final class string {
         public static final int action_settings=0x7f060001;
         public static final int app_name=0x7f060000;
         public static final int browse_visual_explanations=0x7f060002;
         public static final int explain_button=0x7f060003;
+        public static final int hello_world=0x7f060005;
+        public static final int title_activity_browse=0x7f060004;
+        public static final int title_activity_explain=0x7f060006;
     }
     public static final class style {
         /** 

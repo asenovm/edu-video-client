@@ -5,5 +5,8 @@
     <string name="action_settings">Settings</string>
     <string name="browse_visual_explanations">Browse explanations!</string>
     <string name="explain_button">Explain something :)</string>
-    
+    <string name="title_activity_browse">BrowseActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_explain">ExplainActivity</string>
+
 </resources>
