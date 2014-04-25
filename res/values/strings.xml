@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ExplainIt</string>
+    <string name="action_settings">Settings</string>
+    <string name="browse_visual_explanations">Browse explanations!</string>
+    <string name="explain_button">Explain something :)</string>
+    
+</resources>
