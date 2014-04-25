@@ -1,12 +1,10 @@
 package com.ngm.explaintome;
 
 import android.os.Bundle;
-import android.app.Activity;
-import android.content.Intent;
 import android.view.Menu;
 import android.view.View.OnClickListener;
 
-public class FirstActivity extends Activity {
+public class FirstActivity extends BaseActivity {
 
 	private final OnClickListener buttonClickListener = new OnClickListener() {
 		public void onClick(android.view.View v) {
@@ -20,11 +18,6 @@ public class FirstActivity extends Activity {
 			}
 		}
 	};
-
-	private void launchActvity(Class<? extends Activity> activityClass) {
-		Intent intent = new Intent(this, activityClass);
-		startActivity(intent);
-	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
