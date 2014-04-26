@@ -6,42 +6,65 @@ import android.os.Bundle;
 import android.view.Menu;
 import  java.util.ArrayList;
 
+import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import com.ngm.explaintome.data.Tag;
 import com.ngm.explaintome.service.MockRestActions;
 import com.ngm.explaintome.service.RestActions;
+import com.ngm.explaintome.utils.Callback;
 
 import java.util.HashMap;
 import java.util.List;
 
 public class BrowseActivity extends BaseActivity {
-
+    final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+
+        super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_browse);
-        final ListView listview = (ListView) findViewById(R.id.listView);
 
-        final ArrayList<String> list = new ArrayList<String>();
         RestActions restActions = new MockRestActions();
-        List<Tag> tags = restActions.getTags();
 
-        for (int i = 0; i < tags.size(); ++i) {
-            list.add(tags.get(i).toString());
-        }
+        onRestOperationStart();
+        List<Tag> tags = restActions.getTags(new Callback<List<Tag>>() {
+            @Override
+            public void call(List<Tag> result) {
+                final ListView listview = (ListView) findViewById(R.id.listView);
 
-        final StableArrayAdapter adapter = new StableArrayAdapter(this,
-                android.R.layout.simple_list_item_1, list);
-        listview.setAdapter(adapter);
+                final ArrayList<String> list = new ArrayList<String>();
+                for (int i = 0; i < result.size(); ++i) {
+                    list.add(result.get(i).toString());
+                }
 
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                final StableArrayAdapter adapter = new StableArrayAdapter(BrowseActivity.this,
+                        android.R.layout.simple_list_item_1, list);
+                listview.setAdapter(adapter);
 
-	});
+                listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                });
+                onRestOperationEnd();
+
+            }
+        });
+
+
+
     }
 
-	@Override
+    private void onRestOperationStart() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void onRestOperationEnd(){
+        progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.browse, menu);
@@ -73,3 +96,4 @@ private class StableArrayAdapter extends ArrayAdapter<String> {
     public boolean hasStableIds() {
         return true;
     }
+}
