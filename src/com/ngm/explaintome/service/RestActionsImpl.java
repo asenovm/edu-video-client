@@ -10,7 +10,7 @@ import com.ngm.explaintome.data.Video;
 import com.ngm.explaintome.utils.Callback;
 
 public class RestActionsImpl implements RestActions{
-
+	
 	@Override
 	public void getTags(Callback<List<Tag>> callback) {
 		RestTemplate restTemplate = new RestTemplate();
