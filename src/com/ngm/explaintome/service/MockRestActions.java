@@ -12,10 +12,16 @@ public class MockRestActions implements RestActions{
 	@Override
 	public List<Tag> getTags() {
 		final ArrayList<Tag> arrayList = new ArrayList<Tag>();
-		Tag logichesko = new Tag();
-		logichesko.setName("logichesko");
-		arrayList.add(logichesko);
-		return arrayList;
+		Tag tag1 = new Tag();
+		tag1.setName("logichesko");
+		arrayList.add(tag1);
+        Tag tag2 = new Tag();
+        tag2.setName("analiz");
+        arrayList.add(tag2);
+        Tag tag3 = new Tag();
+        tag3.setName("algebra");
+        arrayList.add(tag3);
+        return arrayList;
 	}
 
 	@Override
