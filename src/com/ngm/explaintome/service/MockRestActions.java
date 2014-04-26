@@ -69,7 +69,7 @@ public class MockRestActions implements RestActions {
 	}
 
 	@Override
-	public void putTags(Callback<List<Tag>> callback, List<Tag> tags) {
+	public void putTags(Callback<Boolean> callback, List<Tag> tags) {
 		// TODO Auto-generated method stub
 		
 	}

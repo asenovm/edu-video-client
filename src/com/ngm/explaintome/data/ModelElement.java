@@ -1,14 +1,14 @@
 package com.ngm.explaintome.data;
 
 public class ModelElement {
-	private int id;
+	private String _id;
 
-	public void setId(int id) {
-		this.id = id;
+	public void setId(String id) {
+		this._id = id;
 	}
 
-	public int getId() {
-		return id;
+	public String getId() {
+		return _id;
 		
 	}
 }

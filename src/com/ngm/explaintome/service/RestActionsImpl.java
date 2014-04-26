@@ -3,18 +3,17 @@ package com.ngm.explaintome.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -76,7 +75,7 @@ public class RestActionsImpl implements RestActions {
 	}
 
 	@Override
-	public void putTags(final Callback<List<Tag>> callback, final List<Tag> tags) {
+	public void putTags(final Callback<Boolean> callback, final List<Tag> tags) {
 		final RestTemplate template = new RestTemplate();
 
 		final Gson gson = new Gson();
@@ -87,16 +86,14 @@ public class RestActionsImpl implements RestActions {
 
 			@Override
 			public void run() {
-				
-				
-				HttpEntity<String> requestEntity = new HttpEntity<String>(jsonObject.toString());
+				final HttpHeaders headers = new HttpHeaders();
+				headers.setContentType(MediaType.APPLICATION_JSON);
+
+				HttpEntity<String> requestEntity = new HttpEntity<String>(jsonObject.toString(),headers);
 				template.getMessageConverters().add(new StringHttpMessageConverter());
 				ResponseEntity<String> result = template.exchange(config.getТаgsUri(), HttpMethod.POST, requestEntity, String.class);
 
-				if (result.getStatusCode() != HttpStatus.OK) {
-					throw new RuntimeException();
-				}
-				callback.call(null);
+				callback.call(result.getStatusCode() == HttpStatus.OK);
 			}
 		};
 
