@@ -11,6 +11,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:text="Explain Activity" />
+
+    <VideoView
+        android:id="@+id/explain_activity_video_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>

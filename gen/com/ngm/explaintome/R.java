@@ -28,10 +28,11 @@ public final class R {
         public static final int ic_launcher=0x7f020001;
     }
     public static final class id {
-        public static final int action_settings=0x7f090003;
-        public static final int first_activity_browse_button=0x7f090002;
-        public static final int first_activity_container=0x7f090000;
-        public static final int first_activity_explain_button=0x7f090001;
+        public static final int action_settings=0x7f090004;
+        public static final int explain_activity_video_view=0x7f090000;
+        public static final int first_activity_browse_button=0x7f090003;
+        public static final int first_activity_container=0x7f090001;
+        public static final int first_activity_explain_button=0x7f090002;
     }
     public static final class layout {
         public static final int activity_browse=0x7f030000;

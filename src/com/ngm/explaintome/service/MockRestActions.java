@@ -3,36 +3,52 @@ package com.ngm.explaintome.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.os.Handler;
+
 import com.ngm.explaintome.data.Question;
 import com.ngm.explaintome.data.Tag;
 import com.ngm.explaintome.data.Video;
+import com.ngm.explaintome.utils.Callback;
 
-public class MockRestActions implements RestActions{
+public class MockRestActions implements RestActions {
 
 	@Override
-	public List<Tag> getTags() {
+	public void getVideos(List<Tag> tags, Callback<List<Video>> callback) {
+		delay(callback, new ArrayList<Video>());
+	}
+
+	@Override
+	public void getQuestions(Video video, Callback<List<Question>> callback) {
+		delay(callback, new ArrayList<Question>());
+	}
+
+	@Override
+	public void getTags(final Callback<List<Tag>> callback) {
 		final ArrayList<Tag> arrayList = new ArrayList<Tag>();
-		Tag tag1 = new Tag();
-		tag1.setName("logichesko");
-		arrayList.add(tag1);
-        Tag tag2 = new Tag();
-        tag2.setName("analiz");
-        arrayList.add(tag2);
-        Tag tag3 = new Tag();
-        tag3.setName("algebra");
-        arrayList.add(tag3);
-        return arrayList;
+		Tag logichesko = new Tag();
+		logichesko.setName("logichesko");
+
+		Tag chislen = new Tag();
+		logichesko.setName("Chislen");
+
+		Tag algebra = new Tag();
+		logichesko.setName("Visha algebra");
+
+		arrayList.add(logichesko);
+		arrayList.add(chislen);
+		arrayList.add(algebra);
+
+		delay(callback, arrayList);
+
 	}
 
-	@Override
-	public List<Video> getVideos(List<Tag> tags) {
-		final Video video = new Video();
-		return new ArrayList<Video>();
-	}
-
-	@Override
-	public List<Question> getQuestions(Video video) {
-		return new ArrayList<Question>();
+	private <T> void delay(final Callback<T> callback, final T arrayList) {
+		new Handler().postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				callback.call(arrayList);
+			}
+		}, 350);
 	}
 
 }
