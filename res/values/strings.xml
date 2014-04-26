@@ -8,7 +8,8 @@
     <string name="title_activity_browse">BrowseActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_explain">ExplainActivity</string>
-	<string name="info_text">Play and pause the video on key frames to add questions and remarks!</string>
-	<string name="make_remark">Ask a question</string>
-	
+    <string name="title_activity_video_view">VideoViewActivity</string>
+    <string name="info_text">Play and pause the video on key frames to add questions and remarks!</string>
+    <string name="make_remark">Ask a question</string>
+
 </resources>

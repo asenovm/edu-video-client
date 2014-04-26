@@ -65,7 +65,7 @@ public class MockRestActions implements RestActions {
 			public void run() {
 				callback.call(arrayList);
 			}
-		}, 2350);
+		}, 50);
 	}
 
 	@Override
