@@ -3,35 +3,50 @@ package com.ngm.explaintome;
 import java.io.File;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
+import android.widget.MediaController;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 public class ExplainActivity extends BaseActivity {
 	private static final int REQUEST_CODE = 0x998;
 
 	private static final String TAG = ExplainActivity.class.getSimpleName();
-	
+
 	private VideoFetchingState videoState = new VideoFetchingState();
+
+	private VideoView videoView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_explain);
-		
+		videoView = (VideoView) findViewById(R.id.explain_activity_video_view);
+
 		Log.d(TAG, videoState.toString());
-		if (!videoState.hasVideo() && !videoState.isCancelled()){
-			Intent multiChoiceIntent = createIntentChooser();
-			startActivityForResult(multiChoiceIntent, REQUEST_CODE);
-		}
+		
+		//at the end of the queue!
+		new Handler().post(new Runnable() {
+			
+			@Override
+			public void run() {
+				if (!videoState.hasVideo() && !videoState.isCancelled()) {
+					Intent multiChoiceIntent = createIntentChooser();
+					startActivityForResult(multiChoiceIntent, REQUEST_CODE);
+				}
+				
+			}
+		});
 
 	}
-	
 
 	private Intent createIntentChooser() {
 		Intent videoCaptureIntent = createRecordIntent();
@@ -42,13 +57,12 @@ public class ExplainActivity extends BaseActivity {
 		}
 
 		Intent videoFromGallery = createGalleryIntent();
-		
-		//XXX fixme text out of strings.xml
+
+		// XXX fixme text out of strings.xml
 		Intent chooserIntent = Intent.createChooser(videoCaptureIntent, "Capture or pick from Gallery?");
-		chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {videoFromGallery});
+		chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] { videoFromGallery });
 		return chooserIntent;
 	}
-
 
 	private Intent createGalleryIntent() {
 		Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -65,6 +79,7 @@ public class ExplainActivity extends BaseActivity {
 
 			takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(videoFile));
 		}
+		
 		return takeVideoIntent;
 	}
 
@@ -96,14 +111,18 @@ public class ExplainActivity extends BaseActivity {
 	private void onCancelled() {
 		videoState.cancel();
 		toast("Cancelled");
-
+		finish();
 	}
 
 	private void onVideoReceived(Uri videoUri) {
-		if (Build.VERSION.SDK_INT == Build.VERSION_CODES.JELLY_BEAN_MR2){
+		if (Build.VERSION.SDK_INT == Build.VERSION_CODES.JELLY_BEAN_MR2) {
 			videoUri = Uri.fromFile(generateVideoPath());
 		}
 		videoState.setVideoUri(videoUri);
+		videoView.setVideoURI(videoUri);
+		
+		videoView.setMediaController(new MediaController(ExplainActivity.this));
+		videoView.start();
 		Log.d(TAG, videoUri.toString());
 		toast("Received video " + videoUri.toString());
 	}
@@ -114,36 +133,35 @@ public class ExplainActivity extends BaseActivity {
 		getMenuInflater().inflate(R.menu.explain, menu);
 		return true;
 	}
-	
-	private static class VideoFetchingState{
+
+	private static class VideoFetchingState {
 		private Uri videoUri;
 		private boolean isCancelled;
-		
-		public void setCancelled(boolean cancelled){
+
+		public void setCancelled(boolean cancelled) {
 			this.isCancelled = cancelled;
 		}
-		
-		public void cancel(){
+
+		public void cancel() {
 			setCancelled(true);
 		}
-		
-		public void setVideoUri(Uri videoUri){
+
+		public void setVideoUri(Uri videoUri) {
 			this.videoUri = videoUri;
 		}
-		
-		public boolean isCancelled(){
+
+		public boolean isCancelled() {
 			return isCancelled;
 		}
-		
-		public boolean hasVideo(){
+
+		public boolean hasVideo() {
 			return videoUri != null;
 		}
+
 		@Override
 		public String toString() {
-			return "VideoFetchingState [videoUri=" + videoUri
-					+ ", isCancelled=" + isCancelled + "]";
+			return "VideoFetchingState [videoUri=" + videoUri + ", isCancelled=" + isCancelled + "]";
 		}
-		
 	}
-	
+
 }

@@ -1,30 +1,30 @@
 package com.ngm.explaintome;
 
+import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
-
-import  java.util.ArrayList;
-
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
 import com.ngm.explaintome.data.Tag;
+import com.ngm.explaintome.service.Callback;
 import com.ngm.explaintome.service.MockRestActions;
 import com.ngm.explaintome.service.RestActions;
-import com.ngm.explaintome.utils.Callback;
-
-import java.util.List;
 
 public class BrowseActivity extends BaseActivity {
     ProgressBar progressBar;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
-        super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_browse);
 
 
@@ -61,15 +61,15 @@ public class BrowseActivity extends BaseActivity {
 
     }
 
-    private void onRestOperationStart() {
-        progressBar.setVisibility(View.VISIBLE);
-    }
+	private void onRestOperationStart() {
+		progressBar.setVisibility(View.VISIBLE);
+	}
 
-    private void onRestOperationEnd(){
-        progressBar.setVisibility(View.GONE);
-    }
+	private void onRestOperationEnd() {
+		progressBar.setVisibility(View.GONE);
+	}
 
-    @Override
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.browse, menu);
@@ -107,5 +107,3 @@ public class BrowseActivity extends BaseActivity {
     }
 
 }
-
-

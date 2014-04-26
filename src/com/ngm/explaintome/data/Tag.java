@@ -10,4 +10,10 @@ public class Tag extends ModelElement {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	@Override
+	public String toString() {
+		return "Tag [name=" + name + "]";
+	}
+	
 }

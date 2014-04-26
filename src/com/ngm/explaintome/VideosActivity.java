@@ -15,9 +15,9 @@ import android.widget.ProgressBar;
 
 import com.ngm.explaintome.data.Tag;
 import com.ngm.explaintome.data.Video;
+import com.ngm.explaintome.service.Callback;
 import com.ngm.explaintome.service.MockRestActions;
 import com.ngm.explaintome.service.RestActions;
-import com.ngm.explaintome.utils.Callback;
 
 /**
  * Created by cpt2kan on 4/26/14.
