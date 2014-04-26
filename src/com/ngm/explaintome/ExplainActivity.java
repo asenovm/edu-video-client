@@ -8,11 +8,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.widget.Toast;
 
 public class ExplainActivity extends BaseActivity {
 	private static final int REQUEST_CODE = 0x998;
+
+	private static final String TAG = ExplainActivity.class.getSimpleName();
 	
 	private VideoFetchingState videoState = new VideoFetchingState();
 
@@ -21,11 +24,14 @@ public class ExplainActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_explain);
 		
+		Log.d(TAG, videoState.toString());
 		if (!videoState.hasVideo() && !videoState.isCancelled()){
 			Intent multiChoiceIntent = createIntentChooser();
 			startActivityForResult(multiChoiceIntent, REQUEST_CODE);
 		}
+
 	}
+	
 
 	private Intent createIntentChooser() {
 		Intent videoCaptureIntent = createRecordIntent();
@@ -98,6 +104,7 @@ public class ExplainActivity extends BaseActivity {
 			videoUri = Uri.fromFile(generateVideoPath());
 		}
 		videoState.setVideoUri(videoUri);
+		Log.d(TAG, videoUri.toString());
 		toast("Received video " + videoUri.toString());
 	}
 
@@ -131,6 +138,12 @@ public class ExplainActivity extends BaseActivity {
 		public boolean hasVideo(){
 			return videoUri != null;
 		}
+		@Override
+		public String toString() {
+			return "VideoFetchingState [videoUri=" + videoUri
+					+ ", isCancelled=" + isCancelled + "]";
+		}
+		
 	}
 	
 }

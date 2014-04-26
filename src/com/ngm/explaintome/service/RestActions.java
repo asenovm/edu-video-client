@@ -5,10 +5,11 @@ import java.util.List;
 import com.ngm.explaintome.data.Question;
 import com.ngm.explaintome.data.Tag;
 import com.ngm.explaintome.data.Video;
+import com.ngm.explaintome.utils.Callback;
 
 public interface RestActions {
-	List<Tag> getTags();
-	List<Video> getVideos(List<Tag> tags);
-	List<Question> getQuestions(Video video);
+	void getTags(Callback<List<Tag>> callback);
+	void getVideos(List<Tag> tags, Callback<List<Video>> callback);
+	void getQuestions(Video video, Callback<List<Question>> callback);
 	
 }
