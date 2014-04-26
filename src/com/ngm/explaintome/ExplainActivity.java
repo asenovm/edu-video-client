@@ -12,28 +12,45 @@ import android.view.Menu;
 import android.widget.Toast;
 
 public class ExplainActivity extends BaseActivity {
-	private static final int REQUEST_CODE_VIDEO_CAPTURE = 0x998;
+	private static final int REQUEST_CODE = 0x998;
+	
+	private VideoFetchingState videoState = new VideoFetchingState();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_explain);
-
-		launchCameraApp();
-	}
-
-	private void launchCameraApp() {
-		Intent videoCaptureIntent = createVideoIntent();
-
-		final boolean hasCameraApp = videoCaptureIntent.resolveActivity(getPackageManager()) != null;
-		if (hasCameraApp) {
-			startActivityForResult(videoCaptureIntent, REQUEST_CODE_VIDEO_CAPTURE);
-		} else {
-			toast("Wow! It seems you have somehow deleted your video taking app, well done!");
+		
+		if (!videoState.hasVideo() && !videoState.isCancelled()){
+			Intent multiChoiceIntent = createIntentChooser();
+			startActivityForResult(multiChoiceIntent, REQUEST_CODE);
 		}
 	}
 
-	private Intent createVideoIntent() {
+	private Intent createIntentChooser() {
+		Intent videoCaptureIntent = createRecordIntent();
+
+		final boolean hasCameraApp = videoCaptureIntent.resolveActivity(getPackageManager()) != null;
+		if (!hasCameraApp) {
+			toast("Wow! It seems you have somehow deleted your video taking app, well done!");
+		}
+
+		Intent videoFromGallery = createGalleryIntent();
+		
+		//XXX fixme text out of strings.xml
+		Intent chooserIntent = Intent.createChooser(videoCaptureIntent, "Capture or pick from Gallery?");
+		chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {videoFromGallery});
+		return chooserIntent;
+	}
+
+
+	private Intent createGalleryIntent() {
+		Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+		i.setType("video/mpeg");
+		return i;
+	}
+
+	private Intent createRecordIntent() {
 		Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
 
 		// fix for a horrible 4.3 bug
@@ -58,27 +75,29 @@ public class ExplainActivity extends BaseActivity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == REQUEST_CODE_VIDEO_CAPTURE) {
+		if (requestCode == REQUEST_CODE) {
 			if (resultCode == RESULT_OK) {
 				Uri videoUri = data.getData();
-				onVideoRecorded(videoUri);
+				onVideoReceived(videoUri);
 			} else if (resultCode == RESULT_CANCELED) {
-				onVideoCancelled();
+				onCancelled();
 			} else {
 				toast("Unknown error! Please check logs!");
 			}
 		}
 	}
 
-	private void onVideoCancelled() {
+	private void onCancelled() {
+		videoState.cancel();
 		toast("Cancelled");
 
 	}
 
-	private void onVideoRecorded(Uri videoUri) {
+	private void onVideoReceived(Uri videoUri) {
 		if (Build.VERSION.SDK_INT == Build.VERSION_CODES.JELLY_BEAN_MR2){
 			videoUri = Uri.fromFile(generateVideoPath());
 		}
+		videoState.setVideoUri(videoUri);
 		toast("Received video " + videoUri.toString());
 	}
 
@@ -88,5 +107,30 @@ public class ExplainActivity extends BaseActivity {
 		getMenuInflater().inflate(R.menu.explain, menu);
 		return true;
 	}
-
+	
+	private static class VideoFetchingState{
+		private Uri videoUri;
+		private boolean isCancelled;
+		
+		public void setCancelled(boolean cancelled){
+			this.isCancelled = cancelled;
+		}
+		
+		public void cancel(){
+			setCancelled(true);
+		}
+		
+		public void setVideoUri(Uri videoUri){
+			this.videoUri = videoUri;
+		}
+		
+		public boolean isCancelled(){
+			return isCancelled;
+		}
+		
+		public boolean hasVideo(){
+			return videoUri != null;
+		}
+	}
+	
 }
