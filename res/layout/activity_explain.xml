@@ -21,6 +21,7 @@
         style="@style/ButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+		
         android:layout_below="@id/explain_activity_info_text"
         android:layout_centerHorizontal="true"
         android:padding="16dp"
@@ -29,8 +30,8 @@
     <VideoView
         android:id="@+id/explain_activity_video_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:layout_below="@+id/explain_activity_make_remark"
+        android:layout_height="match_parent"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
