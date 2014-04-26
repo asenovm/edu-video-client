@@ -36,6 +36,7 @@
             android:name="com.ngm.explaintome.ExplainActivity"
             android:label="@string/title_activity_explain" >
         </activity>
+        <activity android:name=".VideosActivity"/>
     </application>
 
 </manifest>

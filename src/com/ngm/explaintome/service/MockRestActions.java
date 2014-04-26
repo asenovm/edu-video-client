@@ -14,7 +14,25 @@ public class MockRestActions implements RestActions {
 
 	@Override
 	public void getVideos(List<Tag> tags, Callback<List<Video>> callback) {
-		delay(callback, new ArrayList<Video>());
+        final ArrayList<Tag> tagList = new ArrayList<Tag>();
+        Tag logichesko = new Tag();
+        logichesko.setName("logichesko");
+
+
+        tagList.add(logichesko);
+
+        final ArrayList<Video> arrayList = new ArrayList<Video>();
+        Video logicheskoVideo1 = new Video();
+        logicheskoVideo1.setTitle("Hornovi Diziunkti");
+        logicheskoVideo1.setTags(tagList);
+        Video logicheskoVideo2 = new Video();
+        logicheskoVideo2.setTitle("Liberalna rezoliuciq");
+        logicheskoVideo2.setTags(tagList);
+
+        arrayList.add(logicheskoVideo1);
+        arrayList.add(logicheskoVideo2);
+
+		delay(callback,arrayList);
 	}
 
 	@Override
@@ -29,10 +47,10 @@ public class MockRestActions implements RestActions {
 		logichesko.setName("logichesko");
 
 		Tag chislen = new Tag();
-		logichesko.setName("Chislen");
+		chislen.setName("Chislen");
 
 		Tag algebra = new Tag();
-		logichesko.setName("Visha algebra");
+		algebra.setName("Visha algebra");
 
 		arrayList.add(logichesko);
 		arrayList.add(chislen);
@@ -48,7 +66,7 @@ public class MockRestActions implements RestActions {
 			public void run() {
 				callback.call(arrayList);
 			}
-		}, 350);
+		}, 2350);
 	}
 
 }
