@@ -27,7 +27,16 @@ public class MockRestActions implements RestActions {
 		final ArrayList<Tag> arrayList = new ArrayList<Tag>();
 		Tag logichesko = new Tag();
 		logichesko.setName("logichesko");
+
+		Tag chislen = new Tag();
+		logichesko.setName("Chislen");
+
+		Tag algebra = new Tag();
+		logichesko.setName("Visha algebra");
+
 		arrayList.add(logichesko);
+		arrayList.add(chislen);
+		arrayList.add(algebra);
 
 		delay(callback, arrayList);
 
