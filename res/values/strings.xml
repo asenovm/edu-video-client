@@ -8,5 +8,6 @@
     <string name="title_activity_browse">BrowseActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_explain">ExplainActivity</string>
+    <string name="title_activity_video_view">VideoViewActivity</string>
 
 </resources>

@@ -19,7 +19,7 @@
     </style>
     -->
 
-    <style name="AppTheme" parent="@android:style/Theme.Holo.Light.NoActionBar"/>
+    <style name="AppTheme" parent="@android:style/Theme.Holo.NoActionBar.Fullscreen"/>
 	
     <style name="ButtonStyle" parent="@android:style/Widget.Holo.Button">
         <item name="android:alpha">1.0</item>
