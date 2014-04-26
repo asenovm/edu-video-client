@@ -1,5 +1,8 @@
 package com.ngm.explaintome;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,14 +12,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+
 import com.ngm.explaintome.data.Tag;
 import com.ngm.explaintome.data.Video;
+import com.ngm.explaintome.service.Callback;
 import com.ngm.explaintome.service.MockRestActions;
 import com.ngm.explaintome.service.RestActions;
-import com.ngm.explaintome.utils.Callback;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by cpt2kan on 4/26/14.
