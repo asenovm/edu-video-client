@@ -24,20 +24,41 @@ public final class R {
         public static final int activity_vertical_margin=0x7f050001;
     }
     public static final class drawable {
-        public static final int fmi=0x7f020000;
-        public static final int ic_launcher=0x7f020001;
+        public static final int backofsearchbutton=0x7f020000;
+        public static final int fmi=0x7f020001;
+        public static final int ic_launcher=0x7f020002;
+        public static final int ic_media_fullscreen_shrink=0x7f020003;
+        public static final int ic_media_fullscreen_stretch=0x7f020004;
+        public static final int ic_media_pause=0x7f020005;
+        public static final int ic_media_play=0x7f020006;
     }
     public static final class id {
-        public static final int action_settings=0x7f090004;
-        public static final int explain_activity_video_view=0x7f090000;
-        public static final int first_activity_browse_button=0x7f090003;
-        public static final int first_activity_container=0x7f090001;
-        public static final int first_activity_explain_button=0x7f090002;
+        public static final int action_settings=0x7f090013;
+        public static final int explain_activity_info_text=0x7f090004;
+        public static final int explain_activity_make_remark=0x7f090005;
+        public static final int explain_activity_video_view=0x7f090006;
+        public static final int ffwd=0x7f09000d;
+        public static final int first_activity_browse_button=0x7f090009;
+        public static final int first_activity_container=0x7f090007;
+        public static final int first_activity_explain_button=0x7f090008;
+        public static final int fullscreen=0x7f090012;
+        public static final int listView=0x7f090002;
+        public static final int mediacontroller_progress=0x7f090010;
+        public static final int next=0x7f09000e;
+        public static final int pause=0x7f09000c;
+        public static final int prev=0x7f09000a;
+        public static final int progressBar=0x7f090003;
+        public static final int rew=0x7f09000b;
+        public static final int searchView=0x7f090001;
+        public static final int textView=0x7f090000;
+        public static final int time=0x7f090011;
+        public static final int time_current=0x7f09000f;
     }
     public static final class layout {
         public static final int activity_browse=0x7f030000;
         public static final int activity_explain=0x7f030001;
         public static final int activity_first=0x7f030002;
+        public static final int media_controller=0x7f030003;
     }
     public static final class menu {
         public static final int browse=0x7f080000;
@@ -50,6 +71,8 @@ public final class R {
         public static final int browse_visual_explanations=0x7f060002;
         public static final int explain_button=0x7f060003;
         public static final int hello_world=0x7f060005;
+        public static final int info_text=0x7f060007;
+        public static final int make_remark=0x7f060008;
         public static final int title_activity_browse=0x7f060004;
         public static final int title_activity_explain=0x7f060006;
     }

@@ -8,7 +8,6 @@ import android.os.Handler;
 import com.ngm.explaintome.data.Question;
 import com.ngm.explaintome.data.Tag;
 import com.ngm.explaintome.data.Video;
-import com.ngm.explaintome.utils.Callback;
 
 public class MockRestActions implements RestActions {
 
@@ -49,6 +48,12 @@ public class MockRestActions implements RestActions {
 				callback.call(arrayList);
 			}
 		}, 350);
+	}
+
+	@Override
+	public void putTags(Callback<List<Tag>> callback, List<Tag> tags) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
