@@ -32,7 +32,7 @@ public class VideosActivity extends Activity {
 
 		Intent intent = getIntent();
 		String name = intent.getStringExtra("name");
-		int id = intent.getIntExtra("id", -1);
+		String id = intent.getStringExtra("id");
 
 		Tag tag = new Tag();
 		tag.setName(name);

@@ -25,14 +25,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1dc36e3a-a44e-4d4f-be9e-5dacdc000a8f" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/ngm/explaintome/BrowseActivity.java" afterPath="$PROJECT_DIR$/src/com/ngm/explaintome/BrowseActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ExplainToMe.iml" afterPath="$PROJECT_DIR$/ExplainToMe.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/ngm/explaintome/ExplainActivity.java" afterPath="$PROJECT_DIR$/src/com/ngm/explaintome/ExplainActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/ngm/explaintome/FirstActivity.java" afterPath="$PROJECT_DIR$/src/com/ngm/explaintome/FirstActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/ngm/explaintome/service/MockRestActions.java" afterPath="$PROJECT_DIR$/src/com/ngm/explaintome/service/MockRestActions.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/ngm/explaintome/data/ModelElement.java" afterPath="$PROJECT_DIR$/src/com/ngm/explaintome/data/ModelElement.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/ngm/explaintome/service/RestActions.java" afterPath="$PROJECT_DIR$/src/com/ngm/explaintome/service/RestActions.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/ngm/explaintome/service/RestActionsImpl.java" afterPath="$PROJECT_DIR$/src/com/ngm/explaintome/service/RestActionsImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/ngm/explaintome/RestConfig.java" afterPath="$PROJECT_DIR$/src/com/ngm/explaintome/RestConfig.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/ngm/explaintome/VideoViewActivity.java" afterPath="$PROJECT_DIR$/src/com/ngm/explaintome/VideoViewActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/ngm/explaintome/VideosActivity.java" afterPath="$PROJECT_DIR$/src/com/ngm/explaintome/VideosActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/activity_videos.xml" afterPath="$PROJECT_DIR$/res/layout/activity_videos.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="edu-video-client.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -108,11 +108,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="VideosActivity.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/ngm/explaintome/VideosActivity.java">
+      <file leaf-file-name="RestActionsImpl.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/ngm/explaintome/service/RestActionsImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="121" column="17" selection-start="3467" selection-end="3467" vertical-scroll-proportion="0.48373103" vertical-offset="1443" max-vertical-offset="1904">
-              <folding />
+            <state line="111" column="0" selection-start="3207" selection-end="3207" vertical-scroll-proportion="0.0" vertical-offset="1218" max-vertical-offset="1768">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -135,19 +137,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="styles.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/values/styles.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="17" selection-start="762" selection-end="762" vertical-scroll-proportion="0.0" vertical-offset="357" max-vertical-offset="544">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MockRestActions.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="MockRestActions.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/ngm/explaintome/service/MockRestActions.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="76" selection-start="1187" selection-end="1230" vertical-scroll-proportion="0.0" vertical-offset="136" max-vertical-offset="1309">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1309">
               <folding />
             </state>
           </provider>
@@ -218,8 +211,6 @@
         <option value="$PROJECT_DIR$/src/com/ngm/explaintome/utils/VideosFragment.java" />
         <option value="$PROJECT_DIR$/res/layout/fragment_videos.xml" />
         <option value="$PROJECT_DIR$/src/VideosActivity.java" />
-        <option value="$PROJECT_DIR$/src/com/ngm/explaintome/service/RestActionsImpl.java" />
-        <option value="$PROJECT_DIR$/src/com/ngm/explaintome/VideosActivity.java" />
         <option value="$PROJECT_DIR$/res/layout/activity_videos.xml" />
         <option value="$PROJECT_DIR$/res/layout/activity_video_list.xml" />
         <option value="$PROJECT_DIR$/src/com/ngm/explaintome/service/MockRestActions.java" />
@@ -227,6 +218,8 @@
         <option value="$PROJECT_DIR$/src/com/ngm/explaintome/RestConfig.java" />
         <option value="$PROJECT_DIR$/src/com/ngm/explaintome/BrowseActivity.java" />
         <option value="$PROJECT_DIR$/res/values-bg/strings.xml" />
+        <option value="$PROJECT_DIR$/src/com/ngm/explaintome/VideosActivity.java" />
+        <option value="$PROJECT_DIR$/src/com/ngm/explaintome/service/RestActionsImpl.java" />
       </list>
     </option>
   </component>
@@ -328,6 +321,46 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="ngm" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="explaintome" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="service" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="edu-video-client" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="edu-video-client" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ngm" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="edu-video-client" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="edu-video-client" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -864,11 +897,6 @@
         <state line="18" column="27" selection-start="349" selection-end="360" vertical-scroll-proportion="0.20930232" vertical-offset="85" max-vertical-offset="816" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/ngm/explaintome/service/RestActionsImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="16" selection-start="331" selection-end="331" vertical-scroll-proportion="0.0" vertical-offset="85" max-vertical-offset="1581" />
-      </provider>
-    </entry>
     <entry file="jar://C:/adt-bundle-windows-x86_64-20140321/sdk/platforms/android-19/android.jar!/java/lang/reflect/Method.class">
       <provider selected="true" editor-type-id="text-editor">
         <state line="54" column="0" selection-start="2320" selection-end="2320" vertical-scroll-proportion="0.0" vertical-offset="538" max-vertical-offset="1020" />
@@ -946,13 +974,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/ngm/explaintome/service/MockRestActions.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="76" selection-start="1187" selection-end="1230" vertical-scroll-proportion="0.0" vertical-offset="136" max-vertical-offset="1309">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/ngm/explaintome/VideoViewActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="70" column="0" selection-start="2294" selection-end="2294" vertical-scroll-proportion="0.0" vertical-offset="576" max-vertical-offset="1598">
@@ -1009,7 +1030,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/ngm/explaintome/VideosActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="121" column="17" selection-start="3467" selection-end="3467" vertical-scroll-proportion="0.48373103" vertical-offset="1443" max-vertical-offset="1904">
+        <state line="56" column="0" selection-start="1579" selection-end="1579" vertical-scroll-proportion="0.0" vertical-offset="644" max-vertical-offset="2023">
+          <folding>
+            <element signature="e#1262#2262#0" expanded="true" />
+            <element signature="e#1679#2224#0" expanded="true" />
+            <element signature="e#2217#2218#0" expanded="true" />
+            <element signature="e#2257#2258#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/ngm/explaintome/service/RestActionsImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="111" column="0" selection-start="3207" selection-end="3207" vertical-scroll-proportion="0.0" vertical-offset="1218" max-vertical-offset="1768">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/ngm/explaintome/service/MockRestActions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1309">
           <folding />
         </state>
       </provider>

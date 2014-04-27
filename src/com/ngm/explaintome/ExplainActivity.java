@@ -2,6 +2,7 @@ package com.ngm.explaintome;
 
 import java.io.File;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
@@ -12,6 +13,8 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -24,6 +27,25 @@ public class ExplainActivity extends BaseActivity {
 	private VideoFetchingState videoState = new VideoFetchingState();
 
 	private VideoView videoView;
+	
+	private final OnClickListener buttonClickListener = new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			switch (v.getId()) {
+			case R.id.explain_activity_make_remark:
+				createModalDialog().show();
+				break;
+
+			default:
+				break;
+			}
+		}
+
+		private Dialog createModalDialog() {
+			return null;
+		}
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

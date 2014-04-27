@@ -33,35 +33,30 @@ public class FirstActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_first);
 
-		findViewById(R.id.first_activity_browse_button).setOnClickListener(
-				buttonClickListener);
-		findViewById(R.id.first_activity_explain_button).setOnClickListener(
-				buttonClickListener);
+		findViewById(R.id.first_activity_browse_button).setOnClickListener(buttonClickListener);
+		findViewById(R.id.first_activity_explain_button).setOnClickListener(buttonClickListener);
 
 //		testRestActions();
 	}
 
 	private void testRestActions() {
-		RestActions actions = new RestActionsImpl(new RestConfig());
-		actions.getTags(new Callback<List<Tag>>() {
-
-			@Override
-			public void call(List<Tag> result) {
-				Toast.makeText(FirstActivity.this,
-						"woohoo! " + result.toString(), Toast.LENGTH_LONG)
-						.show();
-			}
-		});
+		final RestActions actions = new RestActionsImpl(new RestConfig());
 
 		final ArrayList<Tag> tags = new ArrayList<Tag>();
 		Tag tag = new Tag();
-		tag.setName("aaaaa");
+		tag.setName("BBBB");
 		tags.add(tag);
 
-		actions.putTags(new Callback<List<Tag>>() {
-			public void call(java.util.List<Tag> result) {
-				Toast.makeText(FirstActivity.this, result.toString(),
-						Toast.LENGTH_LONG).show();
+		actions.putTags(new Callback<Boolean>() {
+			public void call(Boolean result) {
+				actions.getTags(new Callback<List<Tag>>() {
+
+					@Override
+					public void call(List<Tag> result) {
+						Toast.makeText(FirstActivity.this, "woohoo! " + result.toString(), Toast.LENGTH_LONG).show();
+					}
+				});
+
 			}
 		}, tags);
 	}
