@@ -1,7 +1,9 @@
 package com.ngm.explaintome;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,7 +12,16 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.SearchView;
+import android.widget.SearchView.OnQueryTextListener;
+import android.widget.TextView;
 
 import com.ngm.explaintome.data.Tag;
 import com.ngm.explaintome.data.Video;
@@ -29,6 +40,8 @@ public class VideosActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_videos);
+
+		final SearchView searchView = (SearchView) findViewById(R.id.videosSearchView);
 
 		Intent intent = getIntent();
 		String name = intent.getStringExtra("name");
@@ -54,18 +67,34 @@ public class VideosActivity extends Activity {
 					list.add(result.get(i).getTitle());
 				}
 
+				final VideoAdapter adapter = new VideoAdapter(result);
+				listview.setAdapter(adapter);
 
-                listview.setAdapter(new VideoAdapter(result));
+				searchView.setOnQueryTextListener(new OnQueryTextListener() {
+
+					@Override
+					public boolean onQueryTextSubmit(String query) {
+						adapter.getFilter().filter(query);
+						return true;
+					}
+
+					@Override
+					public boolean onQueryTextChange(String newText) {
+						adapter.getFilter().filter(newText);
+						return true;
+					}
+				});
 				listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 					@Override
 					public void onItemClick(AdapterView<?> adapterView,
 							View view, int position, long id) {
-                        Video video = (Video) adapterView.getAdapter().getItem(position);
+						Video video = (Video) adapterView.getAdapter().getItem(
+								position);
 						final Intent intent = new Intent(VideosActivity.this,
 								VideoViewActivity.class);
-                        intent.putExtra("title",video.getTitle());
-                        intent.putExtra("description",video.getDescription());
-                        startActivity(intent);
+						intent.putExtra("title", video.getTitle());
+						intent.putExtra("description", video.getDescription());
+						startActivity(intent);
 
 					}
 				});
@@ -92,39 +121,82 @@ public class VideosActivity extends Activity {
 
 	}
 
-    private final class VideoAdapter extends BaseAdapter {
-        public final List<Video> video;
+	private final class VideoAdapter extends BaseAdapter implements Filterable {
+		public List<Video> videos;
 
-        public VideoAdapter(List<Video> video){
-            this.video = video;
-        }
+		private List<Video> originalVideos;
 
-        @Override
-        public int getCount() {
-            return video.size();
-        }
+		private class VideoFilter extends Filter {
 
-        @Override
-        public Object getItem(int i) {
-            return video.get(i);
-        }
+			private List<Video> getFilteredVideos(final String query) {
+				final List<Video> result = new LinkedList<Video>();
+				for (final Video video : originalVideos) {
+					final String title = video.getTitle().toLowerCase(
+							Locale.getDefault());
+					if (title.contains(query.toLowerCase(Locale.getDefault()))) {
+						result.add(video);
+					}
+				}
+				return result;
+			}
 
-        @Override
-        public long getItemId(int i) {
-            return 0;
-        }
+			@Override
+			protected FilterResults performFiltering(CharSequence constraint) {
+				final FilterResults results = new FilterResults();
+				results.values = getFilteredVideos(constraint.toString());
+				return results;
+			}
 
-        @Override
-        public LinearLayout getView(int i, View view, ViewGroup viewGroup) {
-            LinearLayout linearLayout = (LinearLayout) LayoutInflater.from(VideosActivity.this).inflate(R.layout.activity_video_list, null);
+			@Override
+			protected void publishResults(CharSequence constraint,
+					FilterResults results) {
+				final List<Video> videos = (List<Video>) results.values;
+				VideoAdapter.this.videos = videos;
+				notifyDataSetChanged();
+			}
 
-            TextView textView2 =  (TextView) linearLayout.findViewById(R.id.videoListTextView2);
-            TextView textView1 =  (TextView) linearLayout.findViewById(R.id.videoListTextView1);
+		}
 
-            textView1.setText(video.get(i).getTitle());
-            textView2.setText(video.get(i).getDescription());
+		public VideoAdapter(List<Video> videos) {
+			this.videos = videos;
+			originalVideos = videos;
+		}
 
-            return linearLayout;
-        }
-    }
+		@Override
+		public int getCount() {
+			return videos.size();
+		}
+
+		@Override
+		public Object getItem(int i) {
+			return videos.get(i);
+		}
+
+		@Override
+		public long getItemId(int i) {
+			return 0;
+		}
+
+		@Override
+		public LinearLayout getView(int i, View view, ViewGroup viewGroup) {
+			LinearLayout linearLayout = (LinearLayout) LayoutInflater.from(
+					VideosActivity.this).inflate(R.layout.activity_video_list,
+					null);
+
+			TextView textView2 = (TextView) linearLayout
+					.findViewById(R.id.videoListTextView2);
+			TextView textView1 = (TextView) linearLayout
+					.findViewById(R.id.videoListTextView1);
+
+			textView1.setText(videos.get(i).getTitle());
+			textView2.setText(videos.get(i).getDescription());
+
+			return linearLayout;
+		}
+
+		@Override
+		public Filter getFilter() {
+			return new VideoFilter();
+		}
+	}
 }
