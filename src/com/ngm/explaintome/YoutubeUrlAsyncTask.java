@@ -46,7 +46,17 @@ public class YoutubeUrlAsyncTask extends AsyncTask<String, Void, String> {
 		listener.onUrlRetrieved(result);
 	}
 
-	public String getUrlVideoRTSP(String urlYoutube) {
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+    }
+
+    @Override
+    protected void onProgressUpdate(Void... values) {
+        super.onProgressUpdate(values);
+    }
+
+    public String getUrlVideoRTSP(String urlYoutube) {
 		try {
 			String gdy = "http://gdata.youtube.com/feeds/api/videos/";
 			DocumentBuilder documentBuilder = DocumentBuilderFactory
