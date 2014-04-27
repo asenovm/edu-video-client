@@ -30,6 +30,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentStart="false"
             android:background="@drawable/backofsearchbutton"
+            android:layout_below="@+id/videosTextView"
             />
 
 

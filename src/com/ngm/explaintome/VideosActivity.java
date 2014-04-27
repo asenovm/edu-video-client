@@ -6,12 +6,11 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.ProgressBar;
+import android.view.ViewGroup;
+import android.widget.*;
 
 import com.ngm.explaintome.data.Tag;
 import com.ngm.explaintome.data.Video;
@@ -55,17 +54,19 @@ public class VideosActivity extends Activity {
 					list.add(result.get(i).getTitle());
 				}
 
-				final ArrayAdapter adapter = new ArrayAdapter(
-						VideosActivity.this,
-						android.R.layout.simple_expandable_list_item_1, list);
-				listview.setAdapter(adapter);
+
+                listview.setAdapter(new VideoAdapter(result));
 				listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 					@Override
 					public void onItemClick(AdapterView<?> adapterView,
 							View view, int position, long id) {
+                        Video video = (Video) adapterView.getAdapter().getItem(position);
 						final Intent intent = new Intent(VideosActivity.this,
 								VideoViewActivity.class);
-						startActivity(intent);
+                        intent.putExtra("title",video.getTitle());
+                        intent.putExtra("description",video.getDescription());
+                        startActivity(intent);
+
 					}
 				});
 				onRestOperationEnd();
@@ -90,4 +91,40 @@ public class VideosActivity extends Activity {
 		progressBar.setVisibility(View.GONE);
 
 	}
+
+    private final class VideoAdapter extends BaseAdapter {
+        public final List<Video> video;
+
+        public VideoAdapter(List<Video> video){
+            this.video = video;
+        }
+
+        @Override
+        public int getCount() {
+            return video.size();
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return video.get(i);
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return 0;
+        }
+
+        @Override
+        public LinearLayout getView(int i, View view, ViewGroup viewGroup) {
+            LinearLayout linearLayout = (LinearLayout) LayoutInflater.from(VideosActivity.this).inflate(R.layout.activity_video_list, null);
+
+            TextView textView2 =  (TextView) linearLayout.findViewById(R.id.videoListTextView2);
+            TextView textView1 =  (TextView) linearLayout.findViewById(R.id.videoListTextView1);
+
+            textView1.setText(video.get(i).getTitle());
+            textView2.setText(video.get(i).getDescription());
+
+            return linearLayout;
+        }
+    }
 }

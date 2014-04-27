@@ -1,27 +1,22 @@
 package com.ngm.explaintome.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.JSONObject;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.http.converter.json.GsonHttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
-
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.widget.Toast;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.ngm.explaintome.RestConfig;
 import com.ngm.explaintome.data.Question;
 import com.ngm.explaintome.data.Tag;
 import com.ngm.explaintome.data.Video;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RestActionsImpl implements RestActions {
 	private RestConfig config;

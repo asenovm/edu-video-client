@@ -15,18 +15,24 @@ public class MockRestActions implements RestActions {
 	public void getVideos(List<Tag> tags, Callback<List<Video>> callback) {
         final ArrayList<Tag> tagList = new ArrayList<Tag>();
         Tag logichesko = new Tag();
-        logichesko.setName("logichesko");
+        logichesko.setName("Логическо Програмиране");
 
 
         tagList.add(logichesko);
 
         final ArrayList<Video> arrayList = new ArrayList<Video>();
+
         Video logicheskoVideo1 = new Video();
-        logicheskoVideo1.setTitle("Hornovi Diziunkti");
+        logicheskoVideo1.setTitle("Хорнови Дизюнкти");
+        logicheskoVideo1.setDescription("Надънихте се на големия кур");
         logicheskoVideo1.setTags(tagList);
+        logicheskoVideo1.setUri("https://www.youtube.com/watch?v=6aOaxcWA2XM");
+
         Video logicheskoVideo2 = new Video();
-        logicheskoVideo2.setTitle("Liberalna rezoliuciq");
+        logicheskoVideo2.setTitle("Либерална резолюция");
+        logicheskoVideo2.setDescription("Надънихте се на още по-големия кур");
         logicheskoVideo2.setTags(tagList);
+        logicheskoVideo2.setUri("https://www.youtube.com/watch?v=HvfQVtSfyAI");
 
         arrayList.add(logicheskoVideo1);
         arrayList.add(logicheskoVideo2);
@@ -43,13 +49,13 @@ public class MockRestActions implements RestActions {
 	public void getTags(final Callback<List<Tag>> callback) {
 		final ArrayList<Tag> arrayList = new ArrayList<Tag>();
 		Tag logichesko = new Tag();
-		logichesko.setName("logichesko");
+		logichesko.setName("Логическо Програмиране");
 
 		Tag chislen = new Tag();
-		chislen.setName("Chislen");
+		chislen.setName("Числен Анализ");
 
 		Tag algebra = new Tag();
-		algebra.setName("Visha algebra");
+		algebra.setName("Висша Алгебра");
 
 		arrayList.add(logichesko);
 		arrayList.add(chislen);

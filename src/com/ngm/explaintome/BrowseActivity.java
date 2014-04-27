@@ -18,6 +18,7 @@ import com.ngm.explaintome.data.Tag;
 import com.ngm.explaintome.service.Callback;
 import com.ngm.explaintome.service.MockRestActions;
 import com.ngm.explaintome.service.RestActions;
+import com.ngm.explaintome.service.RestActionsImpl;
 
 public class BrowseActivity extends BaseActivity {
     ProgressBar progressBar;
@@ -29,7 +30,7 @@ public class BrowseActivity extends BaseActivity {
 
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        RestActions restActions = new MockRestActions();
+        RestActions restActions = new RestActionsImpl(new RestConfig());
 
         onRestOperationStart();
         restActions.getTags(new Callback<List<Tag>>() {
