@@ -1,14 +1,26 @@
 package com.ngm.explaintome;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.EditText;
+import android.widget.Filter;
+import android.widget.Filterable;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.SearchView;
+import android.widget.SearchView.OnQueryTextListener;
+import android.widget.TextView;
 
 import com.ngm.explaintome.data.Tag;
 import com.ngm.explaintome.service.Callback;
@@ -16,61 +28,71 @@ import com.ngm.explaintome.service.MockRestActions;
 import com.ngm.explaintome.service.RestActions;
 
 public class BrowseActivity extends BaseActivity {
-    ProgressBar progressBar;
-    SearchView searchView;
-    String query;
+
+	/**
+	 * {@value}
+	 */
+	private static final String TAG = BrowseActivity.class.getSimpleName();
+
+	ProgressBar progressBar;
+
+	SearchView searchView;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_browse);
 
+		progressBar = (ProgressBar) findViewById(R.id.progressBar);
+		searchView = (SearchView) findViewById(R.id.searchView);
 
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        searchView = (SearchView) findViewById(R.id.searchView);
+		RestActions restActions = new MockRestActions();
+		// RestActions restActions = new RestActionsImpl(new RestConfig());
 
-        searchView.setOnSearchClickListener(new View.OnClickListener()
-        {
+		onRestOperationStart();
+		restActions.getTags(new Callback<List<Tag>>() {
+			@Override
+			public void call(List<Tag> result) {
+				final ListView listview = (ListView) findViewById(R.id.listView);
+				final TagAdapter adapter = new TagAdapter(result);
 
-            @Override
-            public void onClick(View view) {
-               if(searchView.getQuery()!=null)
-                query.concat(searchView.getQuery().toString());
+				listview.setAdapter(adapter);
+				searchView.setOnQueryTextListener(new OnQueryTextListener() {
 
-            }
-        });
-        RestActions restActions = new MockRestActions();
-        //        RestActions restActions = new RestActionsImpl(new RestConfig());
+					@Override
+					public boolean onQueryTextSubmit(String query) {
+						adapter.getFilter().filter(query);
+						return true;
+					}
 
-        onRestOperationStart();
-        restActions.getTags(new Callback<List<Tag>>() {
-            @Override
-            public void call(List<Tag> result) {
-                final ListView listview = (ListView) findViewById(R.id.listView);
+					@Override
+					public boolean onQueryTextChange(String newText) {
+						adapter.getFilter().filter(newText);
+						return true;
+					}
+				});
+				listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+					@Override
+					public void onItemClick(AdapterView<?> adapterView,
+							View view, int position, long id) {
+						Tag tag = (Tag) adapterView.getAdapter().getItem(
+								position);
 
+						Intent intent = new Intent(BrowseActivity.this,
+								VideosActivity.class);
+						intent.putExtra("name", tag.getName());
+						intent.putExtra("id", tag.getId());
 
+						startActivity(intent);
+					}
+				});
+				onRestOperationEnd();
 
-                listview.setAdapter(new TagAdapter(result));
-                listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                        Tag tag = (Tag) adapterView.getAdapter().getItem(position);
+			}
+		});
 
-                        Intent intent = new Intent(BrowseActivity.this, VideosActivity.class);
-                        intent.putExtra("name",tag.getName());
-                        intent.putExtra("id", tag.getId());
-
-                        startActivity(intent);
-                    }
-                });
-                onRestOperationEnd();
-
-            }
-        });
-
-
-
-    }
+	}
 
 	private void onRestOperationStart() {
 		progressBar.setVisibility(View.VISIBLE);
@@ -87,51 +109,78 @@ public class BrowseActivity extends BaseActivity {
 		return true;
 	}
 
-   private final class TagAdapter extends BaseAdapter implements Filterable{
-        public final List<Tag> tags;
+	private final class TagAdapter extends BaseAdapter implements Filterable {
+		public List<Tag> tags;
 
-        public TagAdapter(List<Tag> tags){
-            this.tags = tags;
-        }
+		private final List<Tag> originalTags;
 
-        @Override
-        public int getCount() {
-            return tags.size();
-        }
+		private class TagFilter extends Filter {
 
-        @Override
-        public Object getItem(int i) {
-            return tags.get(i);
-        }
+			private List<Tag> getFilteredTags(final CharSequence query) {
+				final List<Tag> result = new LinkedList<Tag>();
+				for (final Tag tag : originalTags) {
+					final String tagName = tag.getName().toLowerCase(
+							Locale.getDefault());
+					final String queryString = query.toString().toLowerCase(
+							Locale.getDefault());
+					if (tagName.contains(queryString)) {
+						result.add(tag);
+					}
+				}
 
-        @Override
-        public long getItemId(int i) {
-            return 0;
-        }
+				return result;
+			}
 
-        @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-            TextView textView = (TextView) LayoutInflater.from(BrowseActivity.this).inflate(android.R.layout.simple_list_item_1, null);
-            textView.setText(tags.get(i).getName());
-            return textView;
-        }
+			@Override
+			protected FilterResults performFiltering(CharSequence constraint) {
+				final FilterResults result = new FilterResults();
+				result.values = getFilteredTags(constraint);
+				return result;
+			}
 
-       @Override
-       public Filter getFilter() {
-           return new Filter() {
-               @Override
-               protected FilterResults performFiltering(CharSequence charSequence) {
-                    FilterResults filterResults = new FilterResults();
+			@Override
+			protected void publishResults(CharSequence constraint,
+					FilterResults results) {
+				final List<Tag> tags = (List<Tag>) results.values;
+				TagAdapter.this.tags = tags;
+				notifyDataSetChanged();
+			}
 
+		}
 
-               }
+		public TagAdapter(List<Tag> tags) {
+			this.tags = tags;
+			this.originalTags = tags;
+		}
 
-               @Override
-               protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+		@Override
+		public int getCount() {
+			return tags.size();
+		}
 
-               }
-           };
-       }
-   }
+		@Override
+		public Object getItem(int i) {
+			return tags.get(i);
+		}
+
+		@Override
+		public long getItemId(int i) {
+			return 0;
+		}
+
+		@Override
+		public View getView(int i, View view, ViewGroup viewGroup) {
+			TextView textView = (TextView) LayoutInflater.from(
+					BrowseActivity.this).inflate(
+					android.R.layout.simple_list_item_1, null);
+			textView.setText(tags.get(i).getName());
+			return textView;
+		}
+
+		@Override
+		public Filter getFilter() {
+			return new TagFilter();
+		}
+	}
 
 }

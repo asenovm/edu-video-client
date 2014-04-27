@@ -11,5 +11,6 @@
     <string name="title_activity_video_view">VideoViewActivity</string>
     <string name="info_text">Паузирай видеото където решиш да зададеш въпрос и след това натисни пусни,  за да продължиш!</string>
     <string name="make_remark">Попитай въпрос</string>
+    <string name="search_results_none">Няма намерени резултати.</string>
 
 </resources>

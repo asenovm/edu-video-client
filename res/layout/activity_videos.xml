@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/videosSearchView"/>
 
-    <SearchView
+    <com.ngm.explaintome.ColoredSearchView
             android:id="@+id/videosSearchView"
             android:layout_alignParentTop="true"
             android:layout_width="match_parent"
