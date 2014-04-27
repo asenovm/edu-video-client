@@ -46,10 +46,6 @@ public class BrowseActivity extends BaseActivity {
 
 		progressBar = (ProgressBar) findViewById(R.id.progressBar);
 		searchView = (SearchView) findViewById(R.id.searchView);
-		final EditText textField = (EditText) searchView
-				.findViewById(getResources().getIdentifier(
-						"android:id/search_src_text", null, null));
-		textField.setTextColor(Color.BLACK);
 
 		RestActions restActions = new MockRestActions();
 		// RestActions restActions = new RestActionsImpl(new RestConfig());

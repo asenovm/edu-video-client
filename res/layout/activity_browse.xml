@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/searchView" />
 
-    <SearchView
+    <com.ngm.explaintome.ColoredSearchView
         android:id="@+id/searchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,7 +23,6 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="false"
         android:layout_alignParentTop="true"
-        style="@android:style/Theme.Holo"
         android:background="@drawable/backofsearchbutton"
         android:iconifiedByDefault="true" />
 
