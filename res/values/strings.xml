@@ -22,4 +22,7 @@
     
     <string name="OK">OK</string>
     <string name="watch_youtube">Check our videos in youtube</string>
-</resources>
+	<string name="input_title">Enter title...</string>
+	<string name="input_description">Enter description...</string>
+	
+	</resources>

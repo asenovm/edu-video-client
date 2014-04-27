@@ -5,6 +5,7 @@ import java.io.File;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -25,7 +26,6 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -41,7 +41,25 @@ public class ExplainActivity extends BaseActivity {
 
 	private VideoState videoState = new VideoState();
 
-	private final android.content.DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+	private final android.content.DialogInterface.OnClickListener enterTitleDialogClickListener = new DialogInterface.OnClickListener() {
+
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			AlertDialog dialog2 = (AlertDialog) dialog;
+			switch (which) {
+			case Dialog.BUTTON_POSITIVE:
+				videoState.getVideo().setTitle(((EditText) dialog2.findViewById(R.id.dialog_input_title)).getText().toString());
+				break;
+			case Dialog.BUTTON_NEGATIVE:
+				videoState.getVideo().setDescription(((EditText) dialog2.findViewById(R.id.dialog_input_description)).getText().toString());
+				break;
+			default:
+				break;
+			}
+		}
+	};
+
+	private final android.content.DialogInterface.OnClickListener enterQuestionDialogClickListener = new DialogInterface.OnClickListener() {
 
 		@Override
 		public void onClick(DialogInterface arg0, int arg1) {
@@ -116,7 +134,8 @@ public class ExplainActivity extends BaseActivity {
 				createModalDialog().show();
 				videoState.pause();
 				break;
-
+			case R.id.explain_activity_ready:
+				finish();
 			default:
 				break;
 			}
@@ -129,7 +148,7 @@ public class ExplainActivity extends BaseActivity {
 
 			final AlertDialog.Builder builder = new AlertDialog.Builder(ExplainActivity.this);
 			builder.setTitle(textAt + " " + String.format("%02d", position / 60) + ":" + String.format("%02d", position % 60));
-			LinearLayout inflate = (LinearLayout) LayoutInflater.from(ExplainActivity.this).inflate(R.layout.dialog_layout, null);
+			LinearLayout inflate = (LinearLayout) LayoutInflater.from(ExplainActivity.this).inflate(R.layout.dialog_layout_question, null);
 
 			OnCheckedChangeListener onCheckedChangeListener = new OnCheckedChangeListener() {
 
@@ -145,8 +164,8 @@ public class ExplainActivity extends BaseActivity {
 
 			attachToEveryCheckBox(inflate, onCheckedChangeListener);
 			builder.setView(inflate);
-			builder.setPositiveButton("OK", dialogClickListener);
-			builder.setNegativeButton("Cancel", dialogClickListener);
+			builder.setPositiveButton("OK", enterQuestionDialogClickListener);
+			builder.setNegativeButton("Пропусни", enterQuestionDialogClickListener);
 			return builder.create();
 		}
 
@@ -170,23 +189,19 @@ public class ExplainActivity extends BaseActivity {
 		setContentView(R.layout.activity_explain);
 
 		findViewById(R.id.explain_activity_make_remark).setOnClickListener(buttonClickListener);
+		findViewById(R.id.explain_activity_ready).setOnClickListener(buttonClickListener);
 		VideoView videoView = (VideoView) findViewById(R.id.explain_activity_video_view);
 		videoState.setVideoView(videoView);
 
 		Log.d(TAG, videoState.toString());
 
+		final boolean fromFirstActivity = getIntent().hasExtra("fromFirst");
+		getIntent().removeExtra("fromFirst");
 		// at the end of the queue!
-		new Handler().post(new Runnable() {
-
-			@Override
-			public void run() {
-				if (!videoState.hasVideo() && !videoState.isCancelled()) {
-					Intent multiChoiceIntent = createIntentChooser();
-					startActivityForResult(multiChoiceIntent, REQUEST_CODE);
-				}
-
-			}
-		});
+		if (fromFirstActivity) {
+			Intent multiChoiceIntent = createIntentChooser();
+			startActivityForResult(multiChoiceIntent, REQUEST_CODE);
+		}
 
 	}
 
@@ -216,11 +231,11 @@ public class ExplainActivity extends BaseActivity {
 		Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
 
 		// fix for a horrible 4.3 bug
-		if (Build.VERSION.SDK_INT == Build.VERSION_CODES.JELLY_BEAN_MR2) {
-			File videoFile = generateVideoPath();
+		// if (Build.VERSION.SDK_INT == Build.VERSION_CODES.JELLY_BEAN_MR2) {
+		File videoFile = generateVideoPath();
 
-			takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(videoFile));
-		}
+		takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(videoFile));
+		// }
 
 		return takeVideoIntent;
 	}
@@ -252,16 +267,41 @@ public class ExplainActivity extends BaseActivity {
 
 	private void onCancelled() {
 		videoState.cancel();
-		toast("Cancelled");
-		finish();
+		// toast("Cancelled");
+		// finish();
 	}
 
-	private void onVideoReceived(Uri videoUri) {
-		if (Build.VERSION.SDK_INT == Build.VERSION_CODES.JELLY_BEAN_MR2) {
-			videoUri = Uri.fromFile(generateVideoPath());
-		}
+	private void onVideoReceived(final Uri videoUri) {
+		AlertDialog dialog = createTitleDescriptionDialog();
+		dialog.setOnDismissListener(new OnDismissListener() {
 
-		videoState.onVideoReceived(videoUri);
+			@Override
+			public void onDismiss(DialogInterface arg0) {
+				// if (Build.VERSION.SDK_INT ==
+				// Build.VERSION_CODES.JELLY_BEAN_MR2) {
+				videoState.onVideoReceived(Uri.fromFile(generateVideoPath()));
+				/*
+				 * } else { videoState.onVideoReceived(videoUri); }
+				 */
+
+			}
+		});
+		dialog.show();
+
+	}
+
+	private AlertDialog createTitleDescriptionDialog() {
+		final String textAt = ExplainActivity.this.getString(R.string.dialog_title_title);
+		final int position = videoState.getVideoView().getCurrentPosition() / 1000;
+
+		final AlertDialog.Builder builder = new AlertDialog.Builder(ExplainActivity.this);
+		builder.setTitle(textAt + " " + String.format("%02d", position / 60) + ":" + String.format("%02d", position % 60));
+		LinearLayout inflate = (LinearLayout) LayoutInflater.from(ExplainActivity.this).inflate(R.layout.dialog_layout_title, null);
+
+		builder.setView(inflate);
+		builder.setPositiveButton("OK", enterTitleDialogClickListener);
+		builder.setNegativeButton("Отказ", enterTitleDialogClickListener);
+		return builder.create();
 	}
 
 	@Override
@@ -374,7 +414,7 @@ public class ExplainActivity extends BaseActivity {
 			// FIXME keeping URI in two places, not sure if it will be seemless
 			// to remove one of them...
 			this.videoUri = videoUri;
-			videoView.setVideoURI(videoUri);
+			videoView.setVideoPath(videoUri.toString());
 			video.setUri(videoUri.toString());
 		}
 

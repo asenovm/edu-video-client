@@ -23,7 +23,9 @@ public class FirstActivity extends BaseActivity {
 				launchActvity(BrowseActivity.class);
 				break;
 			case R.id.first_activity_explain_button:
-				launchActvity(ExplainActivity.class);
+				Intent i = new Intent(FirstActivity.this, ExplainActivity.class);
+				i.putExtra("fromFirst", Boolean.TRUE);
+				startActivity(i);
 				break;
 			case R.id.first_activity_youtube_button:
 				Intent intent = new Intent(Intent.ACTION_VIEW);
