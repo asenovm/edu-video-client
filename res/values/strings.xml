@@ -21,4 +21,8 @@
     <string name="input_answer">Input your answer here...</string>
     
     <string name="OK">OK</string>
-</resources>
+    <string name="watch_youtube">Check our videos in youtube</string>
+	<string name="input_title">Enter title...</string>
+	<string name="input_description">Enter description...</string>
+	
+	</resources>

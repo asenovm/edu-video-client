@@ -19,6 +19,7 @@ import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.TextView;
 
+import com.ngm.explaintome.data.Question;
 import com.ngm.explaintome.data.Tag;
 import com.ngm.explaintome.data.Video;
 import com.ngm.explaintome.service.Callback;
@@ -29,7 +30,9 @@ import com.ngm.explaintome.service.RestActions;
  * Created by cpt2kan on 4/26/14.
  */
 public class VideosActivity extends BaseListActivity {
-	@Override
+    private Intent intent;
+
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
@@ -94,7 +97,10 @@ public class VideosActivity extends BaseListActivity {
 						final Intent intent = new Intent(VideosActivity.this,
 								VideoViewActivity.class);
 						intent.putExtra("title", video.getTitle());
-						intent.putExtra("description", video.getDescription());
+                        intent.putExtra("Uri",video.getVideoUri());
+                        List<Question> questions = video.getQuestions();
+                        for(int i = 0; i < questions.size(); i++)
+                            intent.putExtra("question"+i,questions.get(i).getId());
 						startActivity(intent);
 
 					}
@@ -106,7 +112,8 @@ public class VideosActivity extends BaseListActivity {
 
 	}
 
-	@Override
+
+    @Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.browse, menu);

@@ -5,6 +5,7 @@ import java.io.File;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -25,7 +26,6 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -41,7 +41,25 @@ public class ExplainActivity extends BaseActivity {
 
 	private VideoState videoState = new VideoState();
 
-	private final android.content.DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+	private final android.content.DialogInterface.OnClickListener enterTitleDialogClickListener = new DialogInterface.OnClickListener() {
+
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			AlertDialog dialog2 = (AlertDialog) dialog;
+			switch (which) {
+			case Dialog.BUTTON_POSITIVE:
+				videoState.getVideo().setTitle(((EditText) dialog2.findViewById(R.id.dialog_input_title)).getText().toString());
+				break;
+			case Dialog.BUTTON_NEGATIVE:
+				videoState.getVideo().setDescription(((EditText) dialog2.findViewById(R.id.dialog_input_description)).getText().toString());
+				break;
+			default:
+				break;
+			}
+		}
+	};
+
+	private final android.content.DialogInterface.OnClickListener enterQuestionDialogClickListener = new DialogInterface.OnClickListener() {
 
 		@Override
 		public void onClick(DialogInterface arg0, int arg1) {
@@ -50,47 +68,50 @@ public class ExplainActivity extends BaseActivity {
 			case Dialog.BUTTON_POSITIVE:
 				arg0.dismiss();
 				videoState.play();
-				
+
 				Question question = new Question();
 				question.setQuestionType(QuestionType.MULTIPLE_CHOICE.name());
-				
+
 				question.setTimestamp(videoState.getVideoView().getCurrentPosition());
 				EditText inputQuestion = ((EditText) dialog.findViewById(R.id.dialog_input_question));
 				question.setText(inputQuestion.getText().toString());
-				
+
 				Answer answer1 = new Answer();
 				Answer answer2 = new Answer();
 				Answer answer3 = new Answer();
 				Answer answer4 = new Answer();
-				
+
 				final String text1 = ((EditText) dialog.findViewById(R.id.dialog_answer1)).getText().toString();
 				final String text2 = ((EditText) dialog.findViewById(R.id.dialog_answer1)).getText().toString();
 				final String text3 = ((EditText) dialog.findViewById(R.id.dialog_answer1)).getText().toString();
 				final String text4 = ((EditText) dialog.findViewById(R.id.dialog_answer1)).getText().toString();
-				
+
 				final boolean checked1 = ((CheckBox) dialog.findViewById(R.id.dialog_checkbox1)).isChecked();
 				final boolean checked2 = ((CheckBox) dialog.findViewById(R.id.dialog_checkbox1)).isChecked();
 				final boolean checked3 = ((CheckBox) dialog.findViewById(R.id.dialog_checkbox1)).isChecked();
 				final boolean checked4 = ((CheckBox) dialog.findViewById(R.id.dialog_checkbox1)).isChecked();
-				
+
 				answer1.setText(text1);
 				answer2.setText(text2);
 				answer3.setText(text3);
 				answer4.setText(text4);
-				
+
 				question.getAnswers().add(answer1);
 				question.getAnswers().add(answer2);
 				question.getAnswers().add(answer3);
 				question.getAnswers().add(answer4);
-				
-				if (checked1) question.setCorrectAnswer(answer1);
-				if (checked2) question.setCorrectAnswer(answer2);
-				if (checked3) question.setCorrectAnswer(answer3);
-				if (checked4) question.setCorrectAnswer(answer4);
-				
+
+				if (checked1)
+					question.setCorrectAnswer(answer1);
+				if (checked2)
+					question.setCorrectAnswer(answer2);
+				if (checked3)
+					question.setCorrectAnswer(answer3);
+				if (checked4)
+					question.setCorrectAnswer(answer4);
+
 				videoState.getVideo().getQuestions().add(question);
-				
-				
+
 				break;
 			case Dialog.BUTTON_NEGATIVE:
 				arg0.dismiss();
@@ -113,7 +134,8 @@ public class ExplainActivity extends BaseActivity {
 				createModalDialog().show();
 				videoState.pause();
 				break;
-
+			case R.id.explain_activity_ready:
+				finish();
 			default:
 				break;
 			}
@@ -121,14 +143,12 @@ public class ExplainActivity extends BaseActivity {
 		}
 
 		private Dialog createModalDialog() {
-			final AlertDialog.Builder builder = new AlertDialog.Builder(ExplainActivity.this);
-			builder.setTitle(ExplainActivity.this.getString(R.string.hello_world));
-			LinearLayout inflate = (LinearLayout) LayoutInflater.from(ExplainActivity.this).inflate(R.layout.dialog_layout, null);
-
 			final String textAt = ExplainActivity.this.getString(R.string.dialog_video_at);
 			final int position = videoState.getVideoView().getCurrentPosition() / 1000;
-			((TextView) inflate.findViewById(R.id.dialog_video_time)).setText(textAt + " " + String.format("%02d", position / 60) + ":"
-					+ String.format("%02d", position % 60));
+
+			final AlertDialog.Builder builder = new AlertDialog.Builder(ExplainActivity.this);
+			builder.setTitle(textAt + " " + String.format("%02d", position / 60) + ":" + String.format("%02d", position % 60));
+			LinearLayout inflate = (LinearLayout) LayoutInflater.from(ExplainActivity.this).inflate(R.layout.dialog_layout_question, null);
 
 			OnCheckedChangeListener onCheckedChangeListener = new OnCheckedChangeListener() {
 
@@ -144,8 +164,8 @@ public class ExplainActivity extends BaseActivity {
 
 			attachToEveryCheckBox(inflate, onCheckedChangeListener);
 			builder.setView(inflate);
-			builder.setPositiveButton("OK", dialogClickListener);
-			builder.setNegativeButton("Cancel", dialogClickListener);
+			builder.setPositiveButton("OK", enterQuestionDialogClickListener);
+			builder.setNegativeButton("Пропусни", enterQuestionDialogClickListener);
 			return builder.create();
 		}
 
@@ -169,23 +189,19 @@ public class ExplainActivity extends BaseActivity {
 		setContentView(R.layout.activity_explain);
 
 		findViewById(R.id.explain_activity_make_remark).setOnClickListener(buttonClickListener);
+		findViewById(R.id.explain_activity_ready).setOnClickListener(buttonClickListener);
 		VideoView videoView = (VideoView) findViewById(R.id.explain_activity_video_view);
 		videoState.setVideoView(videoView);
 
 		Log.d(TAG, videoState.toString());
 
+		final boolean fromFirstActivity = getIntent().hasExtra("fromFirst");
+		getIntent().removeExtra("fromFirst");
 		// at the end of the queue!
-		new Handler().post(new Runnable() {
-
-			@Override
-			public void run() {
-				if (!videoState.hasVideo() && !videoState.isCancelled()) {
-					Intent multiChoiceIntent = createIntentChooser();
-					startActivityForResult(multiChoiceIntent, REQUEST_CODE);
-				}
-
-			}
-		});
+		if (fromFirstActivity) {
+			Intent multiChoiceIntent = createIntentChooser();
+			startActivityForResult(multiChoiceIntent, REQUEST_CODE);
+		}
 
 	}
 
@@ -215,11 +231,11 @@ public class ExplainActivity extends BaseActivity {
 		Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
 
 		// fix for a horrible 4.3 bug
-		if (Build.VERSION.SDK_INT == Build.VERSION_CODES.JELLY_BEAN_MR2) {
-			File videoFile = generateVideoPath();
+		// if (Build.VERSION.SDK_INT == Build.VERSION_CODES.JELLY_BEAN_MR2) {
+		File videoFile = generateVideoPath();
 
-			takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(videoFile));
-		}
+		takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(videoFile));
+		// }
 
 		return takeVideoIntent;
 	}
@@ -251,17 +267,42 @@ public class ExplainActivity extends BaseActivity {
 
 	private void onCancelled() {
 		videoState.cancel();
-		toast("Cancelled");
-		finish();
+		// toast("Cancelled");
+		// finish();
 	}
 
-	private void onVideoReceived(Uri videoUri) {
-		if (Build.VERSION.SDK_INT == Build.VERSION_CODES.JELLY_BEAN_MR2) {
-			videoUri = Uri.fromFile(generateVideoPath());
-		}
-		
-		videoState.onVideoReceived(videoUri);
-		}
+	private void onVideoReceived(final Uri videoUri) {
+		AlertDialog dialog = createTitleDescriptionDialog();
+		dialog.setOnDismissListener(new OnDismissListener() {
+
+			@Override
+			public void onDismiss(DialogInterface arg0) {
+				// if (Build.VERSION.SDK_INT ==
+				// Build.VERSION_CODES.JELLY_BEAN_MR2) {
+				videoState.onVideoReceived(Uri.fromFile(generateVideoPath()));
+				/*
+				 * } else { videoState.onVideoReceived(videoUri); }
+				 */
+
+			}
+		});
+		dialog.show();
+
+	}
+
+	private AlertDialog createTitleDescriptionDialog() {
+		final String textAt = ExplainActivity.this.getString(R.string.dialog_title_title);
+		final int position = videoState.getVideoView().getCurrentPosition() / 1000;
+
+		final AlertDialog.Builder builder = new AlertDialog.Builder(ExplainActivity.this);
+		builder.setTitle(textAt + " " + String.format("%02d", position / 60) + ":" + String.format("%02d", position % 60));
+		LinearLayout inflate = (LinearLayout) LayoutInflater.from(ExplainActivity.this).inflate(R.layout.dialog_layout_title, null);
+
+		builder.setView(inflate);
+		builder.setPositiveButton("OK", enterTitleDialogClickListener);
+		builder.setNegativeButton("Отказ", enterTitleDialogClickListener);
+		return builder.create();
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -270,7 +311,7 @@ public class ExplainActivity extends BaseActivity {
 		return true;
 	}
 
-	private  class VideoState {
+	private class VideoState {
 
 		private Video video = new Video();
 		private VideoView videoView;
@@ -283,57 +324,56 @@ public class ExplainActivity extends BaseActivity {
 
 		public void onVideoReceived(Uri videoUri2) {
 			setVideoUri(videoUri2);
-			
+
 			videoView.setMediaController(new MediaController(ExplainActivity.this));
 			play();
-			
-			
-//			Video video = new Video();
-//			video.setUri(videoUri.toString());
-//
-//			// TODO UI for title and description
-//			video.setTitle("title");
-//			video.setDescription("description");
-//
-//			final ArrayList<Question> questions = new ArrayList<Question>();
-//			for (int i = 0; i < 4; i++) {
-//				final Question question = new Question();
-//				question.setTimestamp((long) (Math.random() * 100000));
-//				question.setText("Question number " + i);
-//				final List<Answer> answers = new ArrayList<Answer>();
-//				for (int j = 0; j < 4; j++) {
-//					Answer answer = new Answer();
-//					answer.setText("Answer number " + j + "");
-//
-//					answers.add(answer);
-//				}
-//
-//				question.setAnswers(answers);
-//				question.setCorrectAnswer(answers.get(2));
-//				question.setQuestionType(QuestionType.MULTIPLE_CHOICE.name());
-//
-//				questions.add(question);
-//			}
-//
-//			video.setQuestions(questions);
-//
-//			final ArrayList<Tag> tagList = new ArrayList<Tag>();
-//			Tag logichesko = new Tag();
-//			logichesko.setName("logichesko");
-//
-//			Tag chislen = new Tag();
-//			chislen.setName("Chislen");
-//
-//			Tag algebra = new Tag();
-//			algebra.setName("Visha algebra");
-//
-//			tagList.add(logichesko);
-//			tagList.add(chislen);
-//			tagList.add(algebra);
-//
-//			video.setTags(tagList);
-//
-//			RestActions restActions = new RestActionsImpl(new RestConfig());
+
+			// Video video = new Video();
+			// video.setUri(videoUri.toString());
+			//
+			// // TODO UI for title and description
+			// video.setTitle("title");
+			// video.setDescription("description");
+			//
+			// final ArrayList<Question> questions = new ArrayList<Question>();
+			// for (int i = 0; i < 4; i++) {
+			// final Question question = new Question();
+			// question.setTimestamp((long) (Math.random() * 100000));
+			// question.setText("Question number " + i);
+			// final List<Answer> answers = new ArrayList<Answer>();
+			// for (int j = 0; j < 4; j++) {
+			// Answer answer = new Answer();
+			// answer.setText("Answer number " + j + "");
+			//
+			// answers.add(answer);
+			// }
+			//
+			// question.setAnswers(answers);
+			// question.setCorrectAnswer(answers.get(2));
+			// question.setQuestionType(QuestionType.MULTIPLE_CHOICE.name());
+			//
+			// questions.add(question);
+			// }
+			//
+			// video.setQuestions(questions);
+			//
+			// final ArrayList<Tag> tagList = new ArrayList<Tag>();
+			// Tag logichesko = new Tag();
+			// logichesko.setName("logichesko");
+			//
+			// Tag chislen = new Tag();
+			// chislen.setName("Chislen");
+			//
+			// Tag algebra = new Tag();
+			// algebra.setName("Visha algebra");
+			//
+			// tagList.add(logichesko);
+			// tagList.add(chislen);
+			// tagList.add(algebra);
+			//
+			// video.setTags(tagList);
+			//
+			// RestActions restActions = new RestActionsImpl(new RestConfig());
 			// restActions.postVideo(video, new Callback<Video>() {
 			//
 			// @Override
@@ -353,8 +393,8 @@ public class ExplainActivity extends BaseActivity {
 		public void play() {
 			videoView.start();
 		}
-		
-		public void pause(){
+
+		public void pause() {
 			videoView.pause();
 		}
 
@@ -374,7 +414,7 @@ public class ExplainActivity extends BaseActivity {
 			// FIXME keeping URI in two places, not sure if it will be seemless
 			// to remove one of them...
 			this.videoUri = videoUri;
-			videoView.setVideoURI(videoUri);
+			videoView.setVideoPath(videoUri.toString());
 			video.setUri(videoUri.toString());
 		}
 
