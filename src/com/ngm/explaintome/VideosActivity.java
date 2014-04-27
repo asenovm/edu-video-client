@@ -7,6 +7,7 @@ import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -60,6 +61,13 @@ public class VideosActivity extends Activity {
 			@Override
 			public void call(List<Video> result) {
 				final ListView listview = (ListView) findViewById(R.id.videosListView);
+
+				final TextView emptyView = new TextView(VideosActivity.this);
+				emptyView.setText("Nothing to show here, move along");
+				emptyView.setBackgroundColor(Color.RED);
+				emptyView.setWidth(200);
+				emptyView.setHeight(200);
+				listview.setEmptyView(emptyView);
 
 				final ArrayList<String> list = new ArrayList<String>();
 
@@ -181,7 +189,7 @@ public class VideosActivity extends Activity {
 		public LinearLayout getView(int i, View view, ViewGroup viewGroup) {
 			LinearLayout linearLayout = (LinearLayout) LayoutInflater.from(
 					VideosActivity.this).inflate(R.layout.activity_video_list,
-					null);
+					null, false);
 
 			TextView textView2 = (TextView) linearLayout
 					.findViewById(R.id.videoListTextView2);

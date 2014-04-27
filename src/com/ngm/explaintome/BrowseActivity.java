@@ -5,15 +5,14 @@ import java.util.List;
 import java.util.Locale;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ListView;
@@ -38,12 +37,15 @@ public class BrowseActivity extends BaseActivity {
 
 	SearchView searchView;
 
+	private ListView listView;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_browse);
 
+		listView = (ListView) findViewById(R.id.listView);
 		progressBar = (ProgressBar) findViewById(R.id.progressBar);
 		searchView = (SearchView) findViewById(R.id.searchView);
 
@@ -54,10 +56,9 @@ public class BrowseActivity extends BaseActivity {
 		restActions.getTags(new Callback<List<Tag>>() {
 			@Override
 			public void call(List<Tag> result) {
-				final ListView listview = (ListView) findViewById(R.id.listView);
 				final TagAdapter adapter = new TagAdapter(result);
 
-				listview.setAdapter(adapter);
+				listView.setAdapter(adapter);
 				searchView.setOnQueryTextListener(new OnQueryTextListener() {
 
 					@Override
@@ -72,7 +73,7 @@ public class BrowseActivity extends BaseActivity {
 						return true;
 					}
 				});
-				listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+				listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 					@Override
 					public void onItemClick(AdapterView<?> adapterView,
 							View view, int position, long id) {
@@ -88,7 +89,6 @@ public class BrowseActivity extends BaseActivity {
 					}
 				});
 				onRestOperationEnd();
-
 			}
 		});
 
@@ -100,6 +100,7 @@ public class BrowseActivity extends BaseActivity {
 
 	private void onRestOperationEnd() {
 		progressBar.setVisibility(View.GONE);
+		listView.setEmptyView(findViewById(R.id.empty_view));
 	}
 
 	@Override
@@ -172,7 +173,7 @@ public class BrowseActivity extends BaseActivity {
 		public View getView(int i, View view, ViewGroup viewGroup) {
 			TextView textView = (TextView) LayoutInflater.from(
 					BrowseActivity.this).inflate(
-					android.R.layout.simple_list_item_1, null);
+					android.R.layout.simple_list_item_1, null, false);
 			textView.setText(tags.get(i).getName());
 			return textView;
 		}
