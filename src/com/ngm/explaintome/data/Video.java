@@ -1,15 +1,16 @@
 package com.ngm.explaintome.data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.net.Uri;
 
 public class Video extends ModelElement {
-	private List<Tag> tags;
+	private List<Tag> tags = new ArrayList<Tag>();
 	private Uri videoUri;
 	private String title;
 	private String description;
-	private List<Question> questions;
+	private List<Question> questions = new ArrayList<Question>();
 	private float rating;
 
 	public Uri getVideoUri() {

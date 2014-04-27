@@ -1,5 +1,6 @@
 package com.ngm.explaintome.data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Question extends ModelElement {
@@ -44,7 +45,7 @@ public class Question extends ModelElement {
 	}
 
 	private String questionType;
-	private List<Answer> options;
+	private List<Answer> options = new ArrayList<Answer>();
 	private Answer correctAnswer;
 	private long timestamp;
 	private String text;
