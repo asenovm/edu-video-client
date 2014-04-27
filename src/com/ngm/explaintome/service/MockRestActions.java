@@ -75,7 +75,13 @@ public class MockRestActions implements RestActions {
 	}
 
 	@Override
-	public void putTags(Callback<Boolean> callback, List<Tag> tags) {
+	public void postTags(Callback<Boolean> callback, List<Tag> tags) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void postVideo(Video video, Callback<Video> success) {
 		// TODO Auto-generated method stub
 		
 	}

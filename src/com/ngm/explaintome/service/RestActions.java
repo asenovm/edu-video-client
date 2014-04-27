@@ -11,6 +11,6 @@ public interface RestActions {
 	void getVideos(List<Tag> tags, Callback<List<Video>> callback);
 	void getQuestions(Video video, Callback<List<Question>> callback);
 	
-	
-	void putTags(Callback<Boolean> callback, List<Tag> tags);
+	void postTags(Callback<Boolean> callback, List<Tag> tags);
+	void postVideo(Video video, Callback<Video> success);
 }

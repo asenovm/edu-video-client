@@ -6,9 +6,9 @@ import java.util.List;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View.OnClickListener;
-import android.widget.Toast;
 
 import com.ngm.explaintome.data.Tag;
+import com.ngm.explaintome.data.Video;
 import com.ngm.explaintome.service.Callback;
 import com.ngm.explaintome.service.RestActions;
 import com.ngm.explaintome.service.RestActionsImpl;
@@ -36,7 +36,7 @@ public class FirstActivity extends BaseActivity {
 		findViewById(R.id.first_activity_browse_button).setOnClickListener(buttonClickListener);
 		findViewById(R.id.first_activity_explain_button).setOnClickListener(buttonClickListener);
 
-//		testRestActions();
+		testRestActions();
 	}
 
 	private void testRestActions() {
@@ -47,18 +47,15 @@ public class FirstActivity extends BaseActivity {
 		tag.setName("BBBB");
 		tags.add(tag);
 
-		actions.putTags(new Callback<Boolean>() {
-			public void call(Boolean result) {
-				actions.getTags(new Callback<List<Tag>>() {
+		actions.getVideos(tags, new Callback<List<Video>>(){
 
-					@Override
-					public void call(List<Tag> result) {
-						Toast.makeText(FirstActivity.this, "woohoo! " + result.toString(), Toast.LENGTH_LONG).show();
-					}
-				});
-
+			@Override
+			public void call(List<Video> result) {
+				
 			}
-		}, tags);
+			
+		});
+		
 	}
 
 	@Override
