@@ -45,7 +45,7 @@ public class FirstActivity extends BaseActivity {
 		findViewById(R.id.first_activity_explain_button).setOnClickListener(buttonClickListener);
 		findViewById(R.id.first_activity_youtube_button).setOnClickListener(buttonClickListener);
 
-		testRestActions();
+//		testRestActions();
 	}
 
 	private void testRestActions() {
