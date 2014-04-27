@@ -34,6 +34,15 @@ import com.ngm.explaintome.RestConfig;
 import com.ngm.explaintome.data.Question;
 import com.ngm.explaintome.data.Tag;
 import com.ngm.explaintome.data.Video;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RestActionsImpl implements RestActions {
 	private static final String TAG = RestActions.class.getSimpleName();

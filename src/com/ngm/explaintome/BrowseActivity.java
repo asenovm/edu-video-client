@@ -8,11 +8,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.widget.*;
 
 import com.ngm.explaintome.data.Tag;
 import com.ngm.explaintome.service.Callback;
@@ -21,6 +17,8 @@ import com.ngm.explaintome.service.RestActions;
 
 public class BrowseActivity extends BaseActivity {
     ProgressBar progressBar;
+    SearchView searchView;
+    String query;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
@@ -29,7 +27,20 @@ public class BrowseActivity extends BaseActivity {
 
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        searchView = (SearchView) findViewById(R.id.searchView);
+
+        searchView.setOnSearchClickListener(new View.OnClickListener()
+        {
+
+            @Override
+            public void onClick(View view) {
+               if(searchView.getQuery()!=null)
+                query.concat(searchView.getQuery().toString());
+
+            }
+        });
         RestActions restActions = new MockRestActions();
+        //        RestActions restActions = new RestActionsImpl(new RestConfig());
 
         onRestOperationStart();
         restActions.getTags(new Callback<List<Tag>>() {
@@ -76,7 +87,7 @@ public class BrowseActivity extends BaseActivity {
 		return true;
 	}
 
-   private final class TagAdapter extends BaseAdapter{
+   private final class TagAdapter extends BaseAdapter implements Filterable{
         public final List<Tag> tags;
 
         public TagAdapter(List<Tag> tags){
@@ -104,6 +115,23 @@ public class BrowseActivity extends BaseActivity {
             textView.setText(tags.get(i).getName());
             return textView;
         }
-    }
+
+       @Override
+       public Filter getFilter() {
+           return new Filter() {
+               @Override
+               protected FilterResults performFiltering(CharSequence charSequence) {
+                    FilterResults filterResults = new FilterResults();
+
+
+               }
+
+               @Override
+               protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+
+               }
+           };
+       }
+   }
 
 }
