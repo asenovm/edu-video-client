@@ -3,6 +3,7 @@ package com.ngm.explaintome;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View.OnClickListener;
@@ -24,6 +25,11 @@ public class FirstActivity extends BaseActivity {
 			case R.id.first_activity_explain_button:
 				launchActvity(ExplainActivity.class);
 				break;
+			case R.id.first_activity_youtube_button:
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.setData(Constants.YOUTUBE_CHANNEL_URL);
+				startActivity(intent);
+				break;
 			}
 		}
 	};
@@ -35,6 +41,7 @@ public class FirstActivity extends BaseActivity {
 
 		findViewById(R.id.first_activity_browse_button).setOnClickListener(buttonClickListener);
 		findViewById(R.id.first_activity_explain_button).setOnClickListener(buttonClickListener);
+		findViewById(R.id.first_activity_youtube_button).setOnClickListener(buttonClickListener);
 
 		testRestActions();
 	}

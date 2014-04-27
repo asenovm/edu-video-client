@@ -12,5 +12,13 @@
     <string name="info_text">Паузирай видеото където решиш да зададеш въпрос и след това натисни пусни,  за да продължиш!</string>
     <string name="make_remark">Попитай въпрос</string>
     <string name="search_results_none">Няма намерени резултати.</string>
-
+    
+    <string name="dialog_video_at">Добави въпрос на: </string>
+    <string name="module_remark">Коментар </string>
+    <string name="module_question">Въпрос</string>
+    <string name="module_open_question">Въпрос с отвоврен отговор</string>
+    <string name="input_question">Задайте въпрос тук...</string>
+    <string name="input_answer">Въведете отговор тук...</string>
+	<string name="watch_youtube">Разгледай видеата в youtube</string>
+    
 </resources>

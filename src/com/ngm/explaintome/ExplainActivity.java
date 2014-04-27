@@ -56,47 +56,50 @@ public class ExplainActivity extends BaseActivity {
 			case Dialog.BUTTON_POSITIVE:
 				arg0.dismiss();
 				videoState.play();
-				
+
 				Question question = new Question();
 				question.setQuestionType(QuestionType.MULTIPLE_CHOICE.name());
-				
+
 				question.setTimestamp(videoState.getVideoView().getCurrentPosition());
 				EditText inputQuestion = ((EditText) dialog.findViewById(R.id.dialog_input_question));
 				question.setText(inputQuestion.getText().toString());
-				
+
 				Answer answer1 = new Answer();
 				Answer answer2 = new Answer();
 				Answer answer3 = new Answer();
 				Answer answer4 = new Answer();
-				
+
 				final String text1 = ((EditText) dialog.findViewById(R.id.dialog_answer1)).getText().toString();
 				final String text2 = ((EditText) dialog.findViewById(R.id.dialog_answer1)).getText().toString();
 				final String text3 = ((EditText) dialog.findViewById(R.id.dialog_answer1)).getText().toString();
 				final String text4 = ((EditText) dialog.findViewById(R.id.dialog_answer1)).getText().toString();
-				
+
 				final boolean checked1 = ((CheckBox) dialog.findViewById(R.id.dialog_checkbox1)).isChecked();
 				final boolean checked2 = ((CheckBox) dialog.findViewById(R.id.dialog_checkbox1)).isChecked();
 				final boolean checked3 = ((CheckBox) dialog.findViewById(R.id.dialog_checkbox1)).isChecked();
 				final boolean checked4 = ((CheckBox) dialog.findViewById(R.id.dialog_checkbox1)).isChecked();
-				
+
 				answer1.setText(text1);
 				answer2.setText(text2);
 				answer3.setText(text3);
 				answer4.setText(text4);
-				
+
 				question.getAnswers().add(answer1);
 				question.getAnswers().add(answer2);
 				question.getAnswers().add(answer3);
 				question.getAnswers().add(answer4);
-				
-				if (checked1) question.setCorrectAnswer(answer1);
-				if (checked2) question.setCorrectAnswer(answer2);
-				if (checked3) question.setCorrectAnswer(answer3);
-				if (checked4) question.setCorrectAnswer(answer4);
-				
+
+				if (checked1)
+					question.setCorrectAnswer(answer1);
+				if (checked2)
+					question.setCorrectAnswer(answer2);
+				if (checked3)
+					question.setCorrectAnswer(answer3);
+				if (checked4)
+					question.setCorrectAnswer(answer4);
+
 				videoState.getVideo().getQuestions().add(question);
-				
-				
+
 				break;
 			case Dialog.BUTTON_NEGATIVE:
 				arg0.dismiss();
@@ -127,14 +130,12 @@ public class ExplainActivity extends BaseActivity {
 		}
 
 		private Dialog createModalDialog() {
-			final AlertDialog.Builder builder = new AlertDialog.Builder(ExplainActivity.this);
-			builder.setTitle(ExplainActivity.this.getString(R.string.hello_world));
-			LinearLayout inflate = (LinearLayout) LayoutInflater.from(ExplainActivity.this).inflate(R.layout.dialog_layout, null);
-
 			final String textAt = ExplainActivity.this.getString(R.string.dialog_video_at);
 			final int position = videoState.getVideoView().getCurrentPosition() / 1000;
-			((TextView) inflate.findViewById(R.id.dialog_video_time)).setText(textAt + " " + String.format("%02d", position / 60) + ":"
-					+ String.format("%02d", position % 60));
+
+			final AlertDialog.Builder builder = new AlertDialog.Builder(ExplainActivity.this);
+			builder.setTitle(textAt + " " + String.format("%02d", position / 60) + ":" + String.format("%02d", position % 60));
+			LinearLayout inflate = (LinearLayout) LayoutInflater.from(ExplainActivity.this).inflate(R.layout.dialog_layout, null);
 
 			OnCheckedChangeListener onCheckedChangeListener = new OnCheckedChangeListener() {
 
@@ -265,9 +266,9 @@ public class ExplainActivity extends BaseActivity {
 		if (Build.VERSION.SDK_INT == Build.VERSION_CODES.JELLY_BEAN_MR2) {
 			videoUri = Uri.fromFile(generateVideoPath());
 		}
-		
+
 		videoState.onVideoReceived(videoUri);
-		}
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -276,7 +277,7 @@ public class ExplainActivity extends BaseActivity {
 		return true;
 	}
 
-	private  class VideoState {
+	private class VideoState {
 
 		private Video video = new Video();
 		private VideoView videoView;
@@ -289,57 +290,56 @@ public class ExplainActivity extends BaseActivity {
 
 		public void onVideoReceived(Uri videoUri2) {
 			setVideoUri(videoUri2);
-			
+
 			videoView.setMediaController(new MediaController(ExplainActivity.this));
 			play();
-			
-			
-//			Video video = new Video();
-//			video.setUri(videoUri.toString());
-//
-//			// TODO UI for title and description
-//			video.setTitle("title");
-//			video.setDescription("description");
-//
-//			final ArrayList<Question> questions = new ArrayList<Question>();
-//			for (int i = 0; i < 4; i++) {
-//				final Question question = new Question();
-//				question.setTimestamp((long) (Math.random() * 100000));
-//				question.setText("Question number " + i);
-//				final List<Answer> answers = new ArrayList<Answer>();
-//				for (int j = 0; j < 4; j++) {
-//					Answer answer = new Answer();
-//					answer.setText("Answer number " + j + "");
-//
-//					answers.add(answer);
-//				}
-//
-//				question.setAnswers(answers);
-//				question.setCorrectAnswer(answers.get(2));
-//				question.setQuestionType(QuestionType.MULTIPLE_CHOICE.name());
-//
-//				questions.add(question);
-//			}
-//
-//			video.setQuestions(questions);
-//
-//			final ArrayList<Tag> tagList = new ArrayList<Tag>();
-//			Tag logichesko = new Tag();
-//			logichesko.setName("logichesko");
-//
-//			Tag chislen = new Tag();
-//			chislen.setName("Chislen");
-//
-//			Tag algebra = new Tag();
-//			algebra.setName("Visha algebra");
-//
-//			tagList.add(logichesko);
-//			tagList.add(chislen);
-//			tagList.add(algebra);
-//
-//			video.setTags(tagList);
-//
-//			RestActions restActions = new RestActionsImpl(new RestConfig());
+
+			// Video video = new Video();
+			// video.setUri(videoUri.toString());
+			//
+			// // TODO UI for title and description
+			// video.setTitle("title");
+			// video.setDescription("description");
+			//
+			// final ArrayList<Question> questions = new ArrayList<Question>();
+			// for (int i = 0; i < 4; i++) {
+			// final Question question = new Question();
+			// question.setTimestamp((long) (Math.random() * 100000));
+			// question.setText("Question number " + i);
+			// final List<Answer> answers = new ArrayList<Answer>();
+			// for (int j = 0; j < 4; j++) {
+			// Answer answer = new Answer();
+			// answer.setText("Answer number " + j + "");
+			//
+			// answers.add(answer);
+			// }
+			//
+			// question.setAnswers(answers);
+			// question.setCorrectAnswer(answers.get(2));
+			// question.setQuestionType(QuestionType.MULTIPLE_CHOICE.name());
+			//
+			// questions.add(question);
+			// }
+			//
+			// video.setQuestions(questions);
+			//
+			// final ArrayList<Tag> tagList = new ArrayList<Tag>();
+			// Tag logichesko = new Tag();
+			// logichesko.setName("logichesko");
+			//
+			// Tag chislen = new Tag();
+			// chislen.setName("Chislen");
+			//
+			// Tag algebra = new Tag();
+			// algebra.setName("Visha algebra");
+			//
+			// tagList.add(logichesko);
+			// tagList.add(chislen);
+			// tagList.add(algebra);
+			//
+			// video.setTags(tagList);
+			//
+			// RestActions restActions = new RestActionsImpl(new RestConfig());
 			// restActions.postVideo(video, new Callback<Video>() {
 			//
 			// @Override
@@ -359,8 +359,8 @@ public class ExplainActivity extends BaseActivity {
 		public void play() {
 			videoView.start();
 		}
-		
-		public void pause(){
+
+		public void pause() {
 			videoView.pause();
 		}
 
