@@ -6,7 +6,6 @@ import java.util.Locale;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -26,18 +25,12 @@ import com.ngm.explaintome.service.Callback;
 import com.ngm.explaintome.service.MockRestActions;
 import com.ngm.explaintome.service.RestActions;
 
-public class BrowseActivity extends BaseActivity {
+public class BrowseActivity extends BaseListActivity {
 
 	/**
 	 * {@value}
 	 */
 	private static final String TAG = BrowseActivity.class.getSimpleName();
-
-	ProgressBar progressBar;
-
-	SearchView searchView;
-
-	private ListView listView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -92,15 +85,6 @@ public class BrowseActivity extends BaseActivity {
 			}
 		});
 
-	}
-
-	private void onRestOperationStart() {
-		progressBar.setVisibility(View.VISIBLE);
-	}
-
-	private void onRestOperationEnd() {
-		progressBar.setVisibility(View.GONE);
-		listView.setEmptyView(findViewById(R.id.empty_view));
 	}
 
 	@Override

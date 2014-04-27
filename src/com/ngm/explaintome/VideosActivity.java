@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -33,16 +32,14 @@ import com.ngm.explaintome.service.RestActions;
 /**
  * Created by cpt2kan on 4/26/14.
  */
-public class VideosActivity extends Activity {
-	ProgressBar progressBar;
-
+public class VideosActivity extends BaseListActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_videos);
 
-		final SearchView searchView = (SearchView) findViewById(R.id.videosSearchView);
+		searchView = (SearchView) findViewById(R.id.videosSearchView);
 
 		Intent intent = getIntent();
 		String name = intent.getStringExtra("name");
@@ -53,6 +50,7 @@ public class VideosActivity extends Activity {
 		tag.setId(id);
 
 		progressBar = (ProgressBar) findViewById(R.id.videosProgressBar);
+		listView = (ListView) findViewById(R.id.videosListView);
 		RestActions restActions = new MockRestActions();
 		List<Tag> listTag = new ArrayList<Tag>();
 		listTag.add(tag);
@@ -60,14 +58,13 @@ public class VideosActivity extends Activity {
 		restActions.getVideos(listTag, new Callback<List<Video>>() {
 			@Override
 			public void call(List<Video> result) {
-				final ListView listview = (ListView) findViewById(R.id.videosListView);
 
 				final TextView emptyView = new TextView(VideosActivity.this);
 				emptyView.setText("Nothing to show here, move along");
 				emptyView.setBackgroundColor(Color.RED);
 				emptyView.setWidth(200);
 				emptyView.setHeight(200);
-				listview.setEmptyView(emptyView);
+				listView.setEmptyView(emptyView);
 
 				final ArrayList<String> list = new ArrayList<String>();
 
@@ -76,7 +73,7 @@ public class VideosActivity extends Activity {
 				}
 
 				final VideoAdapter adapter = new VideoAdapter(result);
-				listview.setAdapter(adapter);
+				listView.setAdapter(adapter);
 
 				searchView.setOnQueryTextListener(new OnQueryTextListener() {
 
@@ -92,7 +89,7 @@ public class VideosActivity extends Activity {
 						return true;
 					}
 				});
-				listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+				listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 					@Override
 					public void onItemClick(AdapterView<?> adapterView,
 							View view, int position, long id) {
@@ -118,15 +115,6 @@ public class VideosActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.browse, menu);
 		return true;
-	}
-
-	private void onRestOperationStart() {
-		progressBar.setVisibility(View.VISIBLE);
-	}
-
-	private void onRestOperationEnd() {
-		progressBar.setVisibility(View.GONE);
-
 	}
 
 	private final class VideoAdapter extends BaseAdapter implements Filterable {
