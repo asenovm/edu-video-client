@@ -3,20 +3,20 @@ package com.ngm.explaintome.data;
 import java.util.List;
 
 public class Question extends ModelElement {
-	public QuestionType getType() {
-		return type;
+	public String getQuestionType() {
+		return questionType;
 	}
 
-	public void setType(QuestionType type) {
-		this.type = type;
+	public void setQuestionType(String type) {
+		this.questionType = type;
 	}
 
 	public List<Answer> getAnswers() {
-		return answers;
+		return options;
 	}
 
 	public void setAnswers(List<Answer> answers) {
-		this.answers = answers;
+		this.options = answers;
 	}
 
 	public Answer getCorrectAnswer() {
@@ -43,8 +43,8 @@ public class Question extends ModelElement {
 		this.text = text;
 	}
 
-	private QuestionType type;
-	private List<Answer> answers;
+	private String questionType;
+	private List<Answer> options;
 	private Answer correctAnswer;
 	private long timestamp;
 	private String text;

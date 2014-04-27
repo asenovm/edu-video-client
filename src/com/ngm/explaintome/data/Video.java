@@ -24,6 +24,12 @@ public class Video extends ModelElement {
 		return title;
 	}
 
+	@Override
+	public String toString() {
+		return "Video [tags=" + tags + ", videoUri=" + videoUri + ", title=" + title + ", description=" + description + ", questions=" + questions
+				+ ", rating=" + rating + "]";
+	}
+
 	public void setTitle(String title) {
 		this.title = title;
 	}

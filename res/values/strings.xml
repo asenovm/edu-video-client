@@ -11,5 +11,14 @@
     <string name="title_activity_video_view">VideoViewActivity</string>
     <string name="info_text">Play and pause the video on key frames to add questions and remarks!</string>
     <string name="make_remark">Ask a question</string>
+    <string name="dialog_video_at">Add a remark  at: </string>
 
+    <!-- fixme should be attached to Type enum... -->
+    <string name="module_remark">Remark </string>
+    <string name="module_question">Question</string>
+    <string name="module_open_question">Question</string>
+    <string name="input_question">Input your question here...</string>
+    <string name="input_answer">Input your answer here...</string>
+    
+    <string name="OK">OK</string>
 </resources>
