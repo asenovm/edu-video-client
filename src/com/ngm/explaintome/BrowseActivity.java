@@ -1,8 +1,6 @@
 package com.ngm.explaintome;
 
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,9 +9,6 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
@@ -27,9 +22,7 @@ import com.ngm.explaintome.service.RestActions;
 
 public class BrowseActivity extends BaseListActivity {
 
-	/**
-	 * {@value}
-	 */
+	@SuppressWarnings("unused")
 	private static final String TAG = BrowseActivity.class.getSimpleName();
 
 	@Override
@@ -94,63 +87,10 @@ public class BrowseActivity extends BaseListActivity {
 		return true;
 	}
 
-	private final class TagAdapter extends BaseAdapter implements Filterable {
-		public List<Tag> tags;
+	private class TagAdapter extends BaseListAdapter<Tag> {
 
-		private final List<Tag> originalTags;
-
-		private class TagFilter extends Filter {
-
-			private List<Tag> getFilteredTags(final CharSequence query) {
-				final List<Tag> result = new LinkedList<Tag>();
-				for (final Tag tag : originalTags) {
-					final String tagName = tag.getName().toLowerCase(
-							Locale.getDefault());
-					final String queryString = query.toString().toLowerCase(
-							Locale.getDefault());
-					if (tagName.contains(queryString)) {
-						result.add(tag);
-					}
-				}
-
-				return result;
-			}
-
-			@Override
-			protected FilterResults performFiltering(CharSequence constraint) {
-				final FilterResults result = new FilterResults();
-				result.values = getFilteredTags(constraint);
-				return result;
-			}
-
-			@Override
-			protected void publishResults(CharSequence constraint,
-					FilterResults results) {
-				final List<Tag> tags = (List<Tag>) results.values;
-				TagAdapter.this.tags = tags;
-				notifyDataSetChanged();
-			}
-
-		}
-
-		public TagAdapter(List<Tag> tags) {
-			this.tags = tags;
-			this.originalTags = tags;
-		}
-
-		@Override
-		public int getCount() {
-			return tags.size();
-		}
-
-		@Override
-		public Object getItem(int i) {
-			return tags.get(i);
-		}
-
-		@Override
-		public long getItemId(int i) {
-			return 0;
+		public TagAdapter(List<Tag> entities) {
+			super(entities);
 		}
 
 		@Override
@@ -158,13 +98,8 @@ public class BrowseActivity extends BaseListActivity {
 			TextView textView = (TextView) LayoutInflater.from(
 					BrowseActivity.this).inflate(
 					android.R.layout.simple_list_item_1, null, false);
-			textView.setText(tags.get(i).getName());
+			textView.setText(entities.get(i).getName());
 			return textView;
-		}
-
-		@Override
-		public Filter getFilter() {
-			return new TagFilter();
 		}
 	}
 
