@@ -12,9 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Filterable;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.TextView;
@@ -121,20 +121,20 @@ public class VideosActivity extends BaseListActivity {
 		}
 
 		@Override
-		public LinearLayout getView(int i, View view, ViewGroup viewGroup) {
-			LinearLayout linearLayout = (LinearLayout) LayoutInflater.from(
+		public View getView(int i, View view, ViewGroup viewGroup) {
+			RelativeLayout layout = (RelativeLayout) LayoutInflater.from(
 					VideosActivity.this).inflate(R.layout.activity_video_list,
 					null, false);
 
-			TextView textView2 = (TextView) linearLayout
+			TextView textView2 = (TextView) layout
 					.findViewById(R.id.videoListTextView2);
-			TextView textView1 = (TextView) linearLayout
+			TextView textView1 = (TextView) layout
 					.findViewById(R.id.videoListTextView1);
 
 			textView1.setText(entities.get(i).getTitle());
 			textView2.setText(entities.get(i).getDescription());
 
-			return linearLayout;
+			return layout;
 		}
 
 	}
