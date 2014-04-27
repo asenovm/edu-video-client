@@ -1,8 +1,6 @@
 package com.ngm.explaintome;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -19,8 +17,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -34,11 +32,7 @@ import android.widget.VideoView;
 import com.ngm.explaintome.data.Answer;
 import com.ngm.explaintome.data.Question;
 import com.ngm.explaintome.data.QuestionType;
-import com.ngm.explaintome.data.Tag;
 import com.ngm.explaintome.data.Video;
-import com.ngm.explaintome.service.Callback;
-import com.ngm.explaintome.service.RestActions;
-import com.ngm.explaintome.service.RestActionsImpl;
 
 public class ExplainActivity extends BaseActivity {
 	private static final int REQUEST_CODE = 0x998;

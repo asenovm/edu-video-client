@@ -1,6 +1,8 @@
 package com.ngm.explaintome.data;
 
-public class Tag extends ModelElement {
+import com.ngm.explaintome.FilterableEntity;
+
+public class Tag extends ModelElement implements FilterableEntity {
 	private String name;
 
 	public String getName() {
@@ -15,5 +17,10 @@ public class Tag extends ModelElement {
 	public String toString() {
 		return "Tag [name=" + name + "]";
 	}
-	
+
+	@Override
+	public String getFilterText() {
+		return getName();
+	}
+
 }

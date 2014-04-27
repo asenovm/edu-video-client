@@ -3,9 +3,11 @@ package com.ngm.explaintome.data;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ngm.explaintome.FilterableEntity;
+
 import android.net.Uri;
 
-public class Video extends ModelElement {
+public class Video extends ModelElement implements FilterableEntity {
 	private List<Tag> tags = new ArrayList<Tag>();
 	private Uri videoUri;
 	private String title;
@@ -27,8 +29,9 @@ public class Video extends ModelElement {
 
 	@Override
 	public String toString() {
-		return "Video [tags=" + tags + ", videoUri=" + videoUri + ", title=" + title + ", description=" + description + ", questions=" + questions
-				+ ", rating=" + rating + "]";
+		return "Video [tags=" + tags + ", videoUri=" + videoUri + ", title="
+				+ title + ", description=" + description + ", questions="
+				+ questions + ", rating=" + rating + "]";
 	}
 
 	public void setTitle(String title) {
@@ -73,5 +76,10 @@ public class Video extends ModelElement {
 
 	public List<Tag> getTags() {
 		return tags;
+	}
+
+	@Override
+	public String getFilterText() {
+		return getTitle();
 	}
 }
